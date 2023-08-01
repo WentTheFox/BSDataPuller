@@ -201,6 +201,7 @@ namespace DataPuller.Core
                 gameplayCoreSceneSetupData.difficultyBeatmap.parentDifficultyBeatmapSet.beatmapCharacteristic);
             MapData.Instance.PreviousRecord = playerLevelStats.highScore;
             MapData.Instance.MapType = gameplayCoreSceneSetupData.difficultyBeatmap.parentDifficultyBeatmapSet.beatmapCharacteristic.serializedName;
+            MapData.Instance.Environment = gameplayCoreSceneSetupData.environmentInfo.serializedName;
             MapData.Instance.Difficulty = gameplayCoreSceneSetupData.difficultyBeatmap.difficulty.ToString("g");
             MapData.Instance.NJS = gameplayCoreSceneSetupData.difficultyBeatmap.noteJumpMovementSpeed;
             MapData.Instance.CustomDifficultyLabel = difficultyData?._difficultyLabel ?? null;
@@ -417,8 +418,16 @@ namespace DataPuller.Core
 
         private void NoteWasCutEvent(NoteController noteController, in NoteCutInfo noteCutInfo)
         {
-            if (!noteCutInfo.allIsOK) return;
             LiveData.Instance.ColorType = noteController.noteData.colorType;
+            if (!noteCutInfo.allIsOK) {
+                LiveData.Instance.FullCombo = false;
+                LiveData.Instance.Combo = 0;
+                if (noteCutInfo.noteData.colorType != ColorType.None) {
+                    LiveData.Instance.Misses++;
+                    LiveData.Instance.NotesSpawned++;
+                }
+                return;
+            }
             LiveData.Instance.NotesSpawned++;
             //Score is updated by the Harmony patch.
             //Data is sent in SetRankAndAccuracy().
