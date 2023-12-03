@@ -162,6 +162,7 @@
   <ItemGroup>
     <None Include=".editorconfig" />
     <None Include="app.config" />
+    <None Include="beatmods.md" />
     <None Include="BuildTargets.targets" />
     <None Include="packages.config" />
   </ItemGroup>
