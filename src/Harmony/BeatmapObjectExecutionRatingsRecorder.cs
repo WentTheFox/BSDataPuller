@@ -1,10 +1,11 @@
 ﻿using DataPuller.Data;
 using HarmonyLib;
+using System;
 
 #nullable enable
 namespace DataPuller.Harmony
 {
-    [HarmonyPatch(typeof(global::BeatmapObjectExecutionRatingsRecorder), nameof(global::BeatmapObjectExecutionRatingsRecorder.HandleScoringForNoteDidFinish))]
+    [HarmonyPatch(typeof(global::BeatmapObjectExecutionRatingsRecorder), "HandleScoringForNoteDidFinish")]
     internal class BeatmapObjectExecutionRatingsRecorder
     {
         [HarmonyPostfix]
