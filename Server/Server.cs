@@ -21,6 +21,7 @@ namespace DataPuller.Server
             Plugin.Logger.Debug("Initialize Server.");
             webSocketServer.AddWebSocketService<ADataServer<MapData>>($"/{PATH_PREFIX}{nameof(MapData)}");
             webSocketServer.AddWebSocketService<ADataServer<LiveData>>($"/{PATH_PREFIX}{nameof(LiveData)}");
+            webSocketServer.AddWebSocketService<ADataServer<ModData>>($"/{PATH_PREFIX}{nameof(ModData)}");
             webSocketServer.Start();
         }
 

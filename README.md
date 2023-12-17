@@ -331,3 +331,45 @@ ScoreChange
 ```
 
 </details>
+
+
+<details>
+<summary style="font-weight: 600">ModData</summary>
+Description: Contains data about the enabled mods.  
+Type: `class`  
+
+| Method | Location                  |
+| --- |---------------------------|
+| Websocket | `/BSDataPuller/ModData`   |
+| C# | `DataPuller.Data.ModData` |
+
+This data gets updated whenever:
+- the game first starts
+- the enabled state of any mod changes
+
+```cs
+///List of metadata for all enabled mods
+List<SPluginMetadata> EnabledPlugins = new List<SPluginMetadata>();
+```
+
+##### SPluginMetadata
+This is a sub-object of `ModData` and does not get extend the `AData` class, there is no endpoint for this type.
+Type: `struct`
+```cs
+///Mod name
+string Name = '';
+///Mod version "major.minor.patch"
+string Version = '';
+///Mod author
+string Author = '';
+///Mod description
+string Description = '';
+///Mod homepage URL
+string HomeLink = '';
+///Mod source code URL
+string SourceLink = '';
+///Mod donation URL
+string DonateLink = '';
+```
+
+</details>
