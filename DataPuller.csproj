@@ -76,6 +76,7 @@
       <Private>False</Private>
       <SpecificVersion>False</SpecificVersion>
     </Reference>
+    <Reference Include="Hive.Versioning, Version=0.1.0.0, Culture=neutral, PublicKeyToken=null" />
     <Reference Include="IPA.Loader">
       <HintPath>$(BeatSaberDir)\Beat Saber_Data\Managed\IPA.Loader.dll</HintPath>
       <Private>False</Private>
@@ -136,6 +137,7 @@
     <Compile Include="Attributes\DefaultValueTAttribute.cs" />
     <Compile Include="Data\AData.cs" />
     <Compile Include="Attributes\DefaultValueAttribute.cs" />
+    <Compile Include="Data\ModData.cs" />
     <Compile Include="Data\SBlockHitScore.cs" />
     <Compile Include="Data\ELiveDataEventTriggers.cs" />
     <Compile Include="Data\LiveData.cs" />
@@ -143,6 +145,7 @@
     <Compile Include="Core\EModifiers.cs" />
     <Compile Include="Data\Modifiers.cs" />
     <Compile Include="Data\PracticeModeModifiers.cs" />
+    <Compile Include="Data\SPluginMetadata.cs" />
     <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="Harmony\BeatmapObjectExecutionRatingsRecorder.cs" />
     <Compile Include="Harmony\MultiplayerSessionManager.cs" />
