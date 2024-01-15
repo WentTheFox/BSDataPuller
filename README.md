@@ -291,6 +291,10 @@ double PlayerHealth = 50;
 ///ColorType.None if no note was previously hit or a bomb was hit.
 ColorType ColorType = ColorType.None;
 
+///The note cut direction, also known as rotation.
+///NoteCutDirection.None if no note was previously hit.
+NoteCutDirection CutDirection = NoteCutDirection.None;
+
 //====MISC====
 ///The total amount of time in seconds since the start of the map.
 int TimeElapsed = 0;
@@ -324,10 +328,26 @@ This is a sub-object of `LiveData` and does not get extend the `AData` class, th
 Type: `enum`
 ```cs
 Unknown = 0,
-TimerElapsed,
-NoteMissed,
-EnergyChange,
-ScoreChange
+TimerElapsed = 1,
+NoteMissed = 2,
+EnergyChange = 3,
+ScoreChange = 4
+```
+
+##### NoteCutDirection
+This is a sub-object of `LiveData` and does not get extend the `AData` class, there is no endpoint for this type.  
+Type: `enum`
+```cs
+Up = 0,
+Down = 1,
+Left = 2,
+Right = 3,
+UpLeft = 4,
+UpRight = 5,
+DownLeft = 6,
+DownRight = 7,
+Any = 8,
+None = 9
 ```
 
 </details>

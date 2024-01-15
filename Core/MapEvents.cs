@@ -380,6 +380,7 @@ namespace DataPuller.Core
                 LiveData.Instance.NotesSpawned++;
                 LiveData.Instance.Misses++;
                 LiveData.Instance.ColorType = noteController.noteData.colorType;
+                LiveData.Instance.CutDirection = noteController.noteData.cutDirection;
                 LiveData.Instance.Send(ELiveDataEventTriggers.NoteMissed);
             }
         }
