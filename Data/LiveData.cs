@@ -107,6 +107,12 @@ namespace DataPuller.Data
         /// <value>Default is <see cref="ColorType.None"/>.</value>
         [DefaultValue(ColorType.None)]
         public ColorType ColorType { get; internal set; }
+
+        /// <summary>The note cut direction, also known as rotation.</summary>
+        /// <remarks><see cref="NoteCutDirection.None"/> if no note was previously hit.</remarks>
+        /// <value>Default is <see cref="NoteCutDirection.None"/>.</value>
+        [DefaultValue(NoteCutDirection.None)]
+        public NoteCutDirection CutDirection { get; internal set; }
         #endregion
 
         #region Misc
