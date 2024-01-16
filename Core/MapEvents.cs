@@ -205,6 +205,16 @@ namespace DataPuller.Core
             MapData.Instance.Difficulty = gameplayCoreSceneSetupData.difficultyBeatmap.difficulty.ToString("g");
             MapData.Instance.NJS = gameplayCoreSceneSetupData.difficultyBeatmap.noteJumpMovementSpeed;
             MapData.Instance.CustomDifficultyLabel = difficultyData?._difficultyLabel ?? null;
+            MapData.Instance.ColorScheme = new SColorScheme
+            {
+                SaberAColor = new SRGBAColor(gameplayCoreSceneSetupData.colorScheme.saberAColor),
+                SaberBColor = new SRGBAColor(gameplayCoreSceneSetupData.colorScheme.saberBColor),
+                ObstaclesColor = new SRGBAColor(gameplayCoreSceneSetupData.colorScheme.obstaclesColor),
+                EnvironmentColor0 = new SRGBAColor(gameplayCoreSceneSetupData.colorScheme.environmentColor0),
+                EnvironmentColor1 = new SRGBAColor(gameplayCoreSceneSetupData.colorScheme.environmentColor1),
+                EnvironmentColor0Boost = new SRGBAColor(gameplayCoreSceneSetupData.colorScheme.environmentColor0Boost),
+                EnvironmentColor1Boost = new SRGBAColor(gameplayCoreSceneSetupData.colorScheme.environmentColor1Boost),
+            };
 
             if (isCustomLevel)
             {
@@ -390,7 +400,7 @@ namespace DataPuller.Core
         private void LevelFailedEvent() => MapData.Instance.LevelFailed = true;
 
         private void LevelFinishedEvent() => MapData.Instance.LevelFinished = true;
-        
+
         //For legacy replay mode.
         private void RelativeScoreOrImmediateRankDidChangeEvent()
         {
