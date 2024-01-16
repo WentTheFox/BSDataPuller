@@ -185,6 +185,9 @@ double PP = 0;
 ///0 if the value was undetermined.
 double Star = 0;
 
+///The color scheme for the currently playing map.
+SColorScheme ColorScheme = new SColorScheme();
+
 //====MISC====
 string GameVersion = ""; //Will be the current game version, e.g. 1.20.0
 
@@ -230,6 +233,43 @@ Type: `class`
 float SongSpeedMul;
 bool StartInAdvanceAndClearNotes;
 float SongStartTime;
+```
+
+
+##### SColorScheme
+This is a sub-object of `MapData` and does not get extend the `AData` class, there is no endpoint for this type.
+Type: `struct`
+```cs
+/// The color of the primary (typically left) saber, and by extension the notes.
+SRGBAColor? SaberAColor = null; 
+/// The color of the secondary (typically right) saber, and by extension the notes.
+SRGBAColor? SaberBColor = null;
+/// The color of the walls.
+SRGBAColor? ObstaclesColor = null;
+/// The primary enviornment color.
+SRGBAColor? EnvironmentColor0 = null;
+/// The secondary enviornment color.
+SRGBAColor? EnvironmentColor1 = null;
+/// The primary enviornment boost color, typically se to the same as the primary environment color.
+SRGBAColor? EnvironmentColor0Boost = null;
+/// The secondary enviornment boost color, typically se to the same as the secondary environment color.
+SRGBAColor? EnvironmentColor1Boost = null;
+```
+
+##### SRGBAColor
+This is a sub-object of `MapData` and does not get extend the `AData` class, there is no endpoint for this type.
+Type: `struct`
+```cs
+/// Hexadeciaml RGB color code including the # symbol
+string HexCode = "#000000";
+/// 0 to 255
+int Red = 0;
+/// 0 to 255
+int Green = 0;
+/// 0 to 255
+int Blue = 0;
+/// 0.0  to 1.0
+float Alpha = 0.0;
 ```
 
 </details>

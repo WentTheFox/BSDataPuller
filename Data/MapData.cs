@@ -1,6 +1,8 @@
 ﻿using System.Reflection;
 using DataPuller.Attributes;
 using Newtonsoft.Json;
+using SongCore.Utilities;
+using UnityEngine;
 
 #nullable enable
 namespace DataPuller.Data
@@ -23,7 +25,7 @@ namespace DataPuller.Data
         /// </remarks>
         /// <value>Default is <see href="false"/>.</value>
         public bool InLevel { get; internal set; }
-        
+
         /// <summary></summary>
         /// <remarks></remarks>
         /// <value>Default is <see href="false"/>.</value>
@@ -167,6 +169,14 @@ namespace DataPuller.Data
         public double Star { get; internal set; }
         #endregion
 
+        #region User Preferences
+        /// <summary>The color scheme for the currently playing map.</summary>
+        /// <remarks></remarks>
+        /// <value>Default is <see href="Data.SColorScheme"/>.</value>
+        [DefaultValueT<SColorScheme>]
+        public SColorScheme ColorScheme { get; internal set; }
+        #endregion
+
         #region Misc
         /// <summary></summary>
         /// <remarks></remarks>
@@ -185,13 +195,13 @@ namespace DataPuller.Data
         /// <value>Default is <see href="false"/>.</value>
         [DefaultValue(false)]
         public bool IsMultiplayer { get; internal set; }
-        
+
         /// <summary>The maximum number of players that can join the current lobby.</summary>
         /// <remarks></remarks>
         /// <value>Default is <see href="0"/>.</value>
         [DefaultValue(0)]
         public int MultiplayerLobbyMaxSize { get; internal set; }
-        
+
         /// <summary>The number of players connected to the current lobby.</summary>
         /// <remarks></remarks>
         /// <value>Default is <see href="0"/>.</value>
