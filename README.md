@@ -1,5 +1,5 @@
 # DataPuller
-Gathers data about the current map you are playing to then be sent out over a websocket for other software to use, e.g. A web overlay like [BSDP-Overlay](../BSDP-Overlay). This mod works with multi PC setups!
+Gathers data about the current map you are playing to then be sent out over a websocket for other software to use, e.g. A web overlay like [BSDP-Overlay](https://github.com/ReadieFur/BSDP-Overlay). This mod works with multi PC setups!
 
 ## Installation:
 To install this mod, download the [latest version](./releases/latest) and place the `DataPuller.dll` into your mods folder. Make sure to also have any of the dependencies listed below installed too.
@@ -16,7 +16,7 @@ In order for this mod to function properly you must have installed the following
 There are few overlays that I know of at the moment that work with this mod but here are some:
 | Overlay | Creator |
 | --- | --- |
-| [BSDP-Overlay](../BSDP-Overlay) | ReadieFur |
+| [BSDP-Overlay](https://github.com/ReadieFur/BSDP-Overlay) | ReadieFur |
 | [Freakylay](https://github.com/UnskilledFreak/Freakylay) | UnskilledFreak |
 | [HyldraZolxy](https://github.com/HyldraZolxy/BeatSaber-Overlay) | HyldraZolxy |
 | [Beat-Saber-Overlay](https://github.com/DJDavid98/Beat-Saber-Overlay) | DJDavid98 |
