@@ -53,6 +53,11 @@ namespace DataPuller.Data
         /// <value>Default is <see href="null"/>.</value>
         public string? Hash { get; internal set; }
 
+        /// <summary>The predefined ID for the current map.</summary>
+        /// <remarks><see href="null"/> if the map is not a built-in level.</remarks>
+        /// <value>Default is <see href="null"/>.</value>
+        public string? LevelID { get; internal set; }
+
 #pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
         /// <summary>The name of the current map.</summary>
         /// <remarks></remarks>
