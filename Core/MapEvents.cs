@@ -45,7 +45,7 @@ namespace DataPuller.Core
 #pragma warning restore CS0649 // Field 'field' is never assigned to, and will always have its default value 'value'
 
 #pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
-        public MapEvents() {} //Injects made above now
+        public MapEvents() { } //Injects made above now
 #pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
 
         public void Initialize()
@@ -184,12 +184,14 @@ namespace DataPuller.Core
             IBeatmapLevel levelData = gameplayCoreSceneSetupData.difficultyBeatmap.level;
             bool isCustomLevel = true;
             string? mapHash = null;
+            string? levelId = levelData.levelID;
             try { mapHash = levelData.levelID.Split('_')[2]; }
             catch { isCustomLevel = false; }
             isCustomLevel = isCustomLevel && mapHash != null && mapHash.Length == 40;
 
             SongCore.Data.ExtraSongData.DifficultyData? difficultyData = SongCore.Collections.RetrieveDifficultyData(gameplayCoreSceneSetupData.difficultyBeatmap);
 
+            MapData.Instance.LevelID = isCustomLevel ? null : levelId;
             MapData.Instance.Hash = isCustomLevel ? mapHash : null;
             MapData.Instance.SongName = levelData.songName;
             MapData.Instance.SongSubName = levelData.songSubName;
@@ -284,6 +286,10 @@ namespace DataPuller.Core
                     });
                 }
             }
+            if (MapData.Instance.CoverImage == null)
+            {
+                TrySetCoverImageFromLevelData(levelData);
+            }
 
             if (MapData.Instance.Hash != previousHash) MapData.Instance.PreviousBSR = previousBSRKey;
 
@@ -337,6 +343,67 @@ namespace DataPuller.Core
 
             MapData.Instance.Send();
             LiveData.Instance.Send();
+        }
+
+        /// <summary>
+        /// Creates the cover image data URL for songs whose cover image cannot be loaded from BeatSaver
+        /// 
+        /// Credit to https://github.com/ReadieFur/BSDataPuller/issues/28 which was further based on
+        /// https://support.unity3d.com/hc/en-us/articles/206486626-How-can-I-get-pixels-from-unreadable-textures-
+        /// Modified to correctly handle texture atlases
+        /// </summary>
+        /// <param name="levelData"></param>
+        private async void TrySetCoverImageFromLevelData(IBeatmapLevel levelData)
+        {
+            try
+            {
+                var coverImageSprite = await levelData.GetCoverImageAsync(System.Threading.CancellationToken.None);
+                if (coverImageSprite != null)
+                {
+                    var activeRenderTexture = RenderTexture.active;
+                    var texture = coverImageSprite.texture;
+                    var temporary = RenderTexture.GetTemporary(texture.width, texture.height, 0, RenderTextureFormat.Default, RenderTextureReadWrite.Linear);
+                    try
+                    {
+                        Graphics.Blit(texture, temporary);
+                        RenderTexture.active = temporary;
+
+                        try
+                        {
+                            var spriteRect = coverImageSprite.rect;
+                            var uv = coverImageSprite.uv[0];
+
+                            var cover = new Texture2D((int)spriteRect.width, (int)spriteRect.height);
+                            // The coordinates of the sprite on its texture atlas are only accessible through the Sprite.uv property since rect always returns `x=0,y=0`, so we need to convert them back into texture space.
+                            cover.ReadPixels(
+                                new Rect(
+                                    uv.x * texture.width,
+                                    texture.height - uv.y * texture.height,
+                                    spriteRect.width,
+                                    spriteRect.height
+                                ),
+                                0,
+                                0
+                            );
+                            cover.Apply();
+
+                            MapData.Instance.CoverImage = "data:image/png;base64," + Convert.ToBase64String(ImageConversion.EncodeToPNG(cover));
+                        }
+                        finally
+                        {
+                            RenderTexture.active = activeRenderTexture;
+                        }
+                    }
+                    finally
+                    {
+                        RenderTexture.ReleaseTemporary(temporary);
+                    }
+                }
+            }
+            catch
+            {
+                MapData.Instance.CoverImage = null;
+            }
         }
 
         private void TimerElapsedEvent(object sender, ElapsedEventArgs ev)
@@ -430,10 +497,12 @@ namespace DataPuller.Core
         private void NoteWasCutEvent(NoteController noteController, in NoteCutInfo noteCutInfo)
         {
             LiveData.Instance.ColorType = noteController.noteData.colorType;
-            if (!noteCutInfo.allIsOK) {
+            if (!noteCutInfo.allIsOK)
+            {
                 LiveData.Instance.FullCombo = false;
                 LiveData.Instance.Combo = 0;
-                if (noteCutInfo.noteData.colorType != ColorType.None) {
+                if (noteCutInfo.noteData.colorType != ColorType.None)
+                {
                     LiveData.Instance.Misses++;
                     LiveData.Instance.NotesSpawned++;
                 }
