@@ -22,8 +22,11 @@ There are few overlays that I know of at the moment that work with this mod but 
 | [Beat-Saber-Overlay](https://github.com/DJDavid98/Beat-Saber-Overlay) | DJDavid98 |
 
 ## Project status:
-This project is still maintianed though loosely, I will keep updating it to make sure it remains compatiable with the game but don't expect new features to constantly be added.  
-For a detailed view on the project status, check the [TODO](./.todo) file.
+The [original repository](https://github.com/ReadieFur/BSDataPuller) has not been updated for over a year (at the time of writing) and appears to have been abandoned for all intents and purposes.
+
+This fork is actively maintained by me ([DJDavid98](https://github.com/DJDavid98)) and new features/fixes are added on request to the best of my abilities.
+
+Don't hesitate to open an issue or reach out in case you feel there is something that could be added/improved.
 
 
 ## Output data:
@@ -123,6 +126,10 @@ bool LevelQuit = false;
 ///The hash ID for the current map.
 ///null if the hash could not be determined (e.g. if the map is not a custom level).
 string? Hash = null;
+
+///The predefined ID for the current map.
+///null if the map is not a built-in level.
+string? LevelID = null;
 
 ///The name of the current map.
 string SongName = "";
