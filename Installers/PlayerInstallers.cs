@@ -7,7 +7,7 @@ namespace DataPuller.Installers
     {
         public override void InstallBindings()
         {
-            Plugin.Logger.Debug("InstallBindings.");
+            Plugin.Logger.Debug($"{nameof(PlayerInstallers)} InstallBindings.");
             Container.BindInterfacesAndSelfTo<MapEvents>().AsSingle();
         }
     }

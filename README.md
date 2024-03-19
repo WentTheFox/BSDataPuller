@@ -213,7 +213,7 @@ string? PreviousBSR = null;
 ```
 
 ##### Modifiers
-This is a sub-object of `MapData` and does not get extend the `AData` class, there is no endpoint for this type.  
+This is a sub-object of `MapData` and it doesn't extend the `AData` class, there is no endpoint for this type.  
 Type: `class`
 ```cs
 bool NoFailOn0Energy = false;
@@ -234,7 +234,7 @@ bool SuperFastSong = false;
 ```
 
 ##### PracticeModeModifiers
-This is a sub-object of `MapData` and does not get extend the `AData` class, there is no endpoint for this type.  
+This is a sub-object of `MapData` and it doesn't extend the `AData` class, there is no endpoint for this type.  
 Type: `class`
 ```cs
 float SongSpeedMul;
@@ -244,7 +244,7 @@ float SongStartTime;
 
 
 ##### SColorScheme
-This is a sub-object of `MapData` and does not get extend the `AData` class, there is no endpoint for this type.
+This is a sub-object of `MapData` and it doesn't extend the `AData` class, there is no endpoint for this type.
 Type: `struct`
 ```cs
 /// The color of the primary (typically left) saber, and by extension the notes.
@@ -264,7 +264,7 @@ SRGBAColor? EnvironmentColor1Boost = null;
 ```
 
 ##### SRGBAColor
-This is a sub-object of `MapData` and does not get extend the `AData` class, there is no endpoint for this type.
+This is a sub-object of `MapData` and it doesn't extend the `AData` class, there is no endpoint for this type.
 Type: `struct`
 ```cs
 /// Hexadeciaml RGB color code including the # symbol
@@ -350,7 +350,7 @@ int TimeElapsed = 0;
 ELiveDataEventTriggers EventTrigger = ELiveDataEventTriggers.Unknown;
 ```
 ##### SBlockHitScore
-This is a sub-object of `LiveData` and does not get extend the `AData` class, there is no endpoint for this type.
+This is a sub-object of `LiveData` and it doesn't extend the `AData` class, there is no endpoint for this type.
 Type: `struct`
 ```cs
 ///0 to 70.
@@ -362,7 +362,7 @@ int CenterSwing = 0;
 ```
 
 ##### ColorType
-This is a sub-object of `LiveData` and does not get extend the `AData` class, there is no endpoint for this type.
+This is a sub-object of `LiveData` and it doesn't extend the `AData` class, there is no endpoint for this type.
 Type: `enum`
 ```cs
 ColorA = 0,
@@ -371,7 +371,7 @@ None = -1
 ```
 
 ##### ELiveDataEventTriggers
-This is a sub-object of `LiveData` and does not get extend the `AData` class, there is no endpoint for this type.  
+This is a sub-object of `LiveData` and it doesn't extend the `AData` class, there is no endpoint for this type.  
 Type: `enum`
 ```cs
 Unknown = 0,
@@ -382,7 +382,7 @@ ScoreChange = 4
 ```
 
 ##### NoteCutDirection
-This is a sub-object of `LiveData` and does not get extend the `AData` class, there is no endpoint for this type.  
+This is a sub-object of `LiveData` and it doesn't extend the `AData` class, there is no endpoint for this type.  
 Type: `enum`
 ```cs
 Up = 0,
@@ -420,7 +420,7 @@ List<SPluginMetadata> EnabledPlugins = new List<SPluginMetadata>();
 ```
 
 ##### SPluginMetadata
-This is a sub-object of `ModData` and does not get extend the `AData` class, there is no endpoint for this type.
+This is a sub-object of `ModData` and it doesn't extend the `AData` class, there is no endpoint for this type.
 Type: `struct`
 ```cs
 ///Mod name
@@ -437,6 +437,45 @@ string HomeLink = '';
 string SourceLink = '';
 ///Mod donation URL
 string DonateLink = '';
+```
+
+</details>
+
+<details>
+<summary style="font-weight: 600">PartyData</summary>
+Description: Contains data about the local leaderboard in Party mode.  
+Type: `class`
+
+| Method    | Location                    |
+|-----------|-----------------------------|
+| Websocket | `/BSDataPuller/PartyData`   |
+| C#        | `DataPuller.Data.PartyData` |
+
+This data gets updated whenever:
+- the game adds a new score to the local leaderboard
+- the song selection in the menu changes while in Party mode
+
+```cs
+///ID of the leaderboard
+string? LeaderboardID = null;
+///Type of the leaderboard
+string? LeaderboardType = null;
+///List of scores for the specific leaderboard
+List<SLocalLeaderboardScore> Scores = new List<SLocalLeaderboardScore>();
+```
+
+##### SLocalLeaderboardScore
+This is a sub-object of `PartyData` and it doesn't extend the `AData` class, there is no endpoint for this type.
+Type: `struct`
+```cs
+///Player name
+string PlayerName = '';
+///Player's score
+int Score = 0;
+///UNIX timestamp (in seconds) when the score was recorded
+long Timestamp = 0;
+///Whether the play-through had a full combo (no mistakes)
+bool FullCombo = false;
 ```
 
 </details>
