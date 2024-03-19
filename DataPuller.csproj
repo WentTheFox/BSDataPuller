@@ -67,6 +67,11 @@
       <Private>False</Private>
       <SpecificVersion>False</SpecificVersion>
     </Reference>
+    <Reference Include="BGLib.UnityExtension, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <Private>False</Private>
+      <HintPath>$(BeatSaberReferences)\Beat Saber_Data\Managed\BGLib.UnityExtension.dll</HintPath>
+      <SpecificVersion>False</SpecificVersion>
+    </Reference>
     <Reference Include="BGNet, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <Private>False</Private>
       <HintPath>$(GameDirectory)\Beat Saber_Data\Managed\BGNet.dll</HintPath>
@@ -151,8 +156,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Attributes\DefaultValueTAttribute.cs" />
+    <Compile Include="Core\LocalLeaderboardEvents.cs" />
     <Compile Include="Data\AData.cs" />
     <Compile Include="Attributes\DefaultValueAttribute.cs" />
+    <Compile Include="Data\PartyData.cs" />
+    <Compile Include="Data\SLocalLeaderboardScore.cs" />
     <Compile Include="Data\SRGBAColor.cs" />
     <Compile Include="Data\ModData.cs" />
     <Compile Include="Data\SBlockHitScore.cs" />
@@ -166,7 +174,9 @@
     <Compile Include="Data\SPluginMetadata.cs" />
     <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="Harmony\BeatmapObjectExecutionRatingsRecorder.cs" />
+    <Compile Include="Harmony\LocalLeaderboardViewControllerPatch.cs" />
     <Compile Include="Harmony\MultiplayerSessionManager.cs" />
+    <Compile Include="Installers\MenuInstallers.cs" />
     <Compile Include="Installers\AppInstallers.cs" />
     <Compile Include="Installers\PlayerInstallers.cs" />
     <Compile Include="Server\ADataServer.cs" />

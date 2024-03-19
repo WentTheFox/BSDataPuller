@@ -34,6 +34,7 @@ namespace DataPuller
 
             zenjector.Install<AppInstallers>(Location.App);
             zenjector.Install<PlayerInstallers>(Location.Player);
+            zenjector.Install<MenuInstallers>(Location.Menu);
             zenjector.Expose<ScoreUIController>($"{PLUGIN_NAME}_{nameof(ScoreUIController)}");
 
             Logger.Debug("Apply Harmony patches");
