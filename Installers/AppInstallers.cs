@@ -1,4 +1,5 @@
-﻿using DataPuller.Data;
+﻿using DataPuller.Core;
+using DataPuller.Data;
 using Zenject;
 
 namespace DataPuller.Installers
@@ -7,7 +8,7 @@ namespace DataPuller.Installers
     {
         public override void InstallBindings()
         {
-            Plugin.Logger.Debug("InstallBindings.");
+            Plugin.Logger.Debug($"{nameof(AppInstallers)} InstallBindings.");
 #if DEBUG
             Container.BindInterfacesAndSelfTo<Testing.TestClass>().AsSingle();
 #endif
