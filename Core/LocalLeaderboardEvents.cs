@@ -1,17 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Reflection;
-using System.Timers;
-using BeatSaverSharp;
 using DataPuller.Data;
-using HarmonyLib;
-using IPA.Utilities;
-using SongDetailsCache;
-using SongDetailsCache.Structs;
-using TMPro;
-using UnityEngine;
 using Zenject;
 
 #nullable enable
@@ -20,7 +9,6 @@ namespace DataPuller.Core
     internal class LocalLeaderboardEvents : IInitializable, IDisposable
     {
         [InjectOptional] private LocalLeaderboardViewController? localLeaderboardViewController;
-        [InjectOptional] private PartyFreePlayFlowCoordinator? partyFreePlayFlowCoordinator;
 
         public void Initialize()
         {

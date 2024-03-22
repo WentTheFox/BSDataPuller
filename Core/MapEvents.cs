@@ -13,6 +13,7 @@ using SongDetailsCache.Structs;
 using TMPro;
 using UnityEngine;
 using Zenject;
+using static SliderController.Pool;
 
 #nullable enable
 namespace DataPuller.Core
@@ -181,7 +182,8 @@ namespace DataPuller.Core
         public void LevelLoaded()
         {
             PlayerData playerData = Resources.FindObjectsOfTypeAll<PlayerDataModel>().FirstOrDefault().playerData;
-            IBeatmapLevel levelData = gameplayCoreSceneSetupData.difficultyBeatmap.level;
+            var difficultyBeatmap = gameplayCoreSceneSetupData.difficultyBeatmap;
+            IBeatmapLevel levelData = difficultyBeatmap.level;
             bool isCustomLevel = true;
             string? mapHash = null;
             string? levelId = levelData.levelID;
@@ -189,7 +191,7 @@ namespace DataPuller.Core
             catch { isCustomLevel = false; }
             isCustomLevel = isCustomLevel && mapHash != null && mapHash.Length == 40;
 
-            SongCore.Data.ExtraSongData.DifficultyData? difficultyData = SongCore.Collections.RetrieveDifficultyData(gameplayCoreSceneSetupData.difficultyBeatmap);
+            SongCore.Data.ExtraSongData.DifficultyData? difficultyData = SongCore.Collections.RetrieveDifficultyData(difficultyBeatmap);
 
             MapData.Instance.LevelID = isCustomLevel ? null : levelId;
             MapData.Instance.Hash = isCustomLevel ? mapHash : null;
@@ -199,13 +201,15 @@ namespace DataPuller.Core
             MapData.Instance.Mapper = levelData.levelAuthorName;
             MapData.Instance.BPM = Convert.ToInt32(Math.Round(levelData.beatsPerMinute));
             MapData.Instance.Duration = Convert.ToInt32(Math.Round(audioTimeSyncController.songLength));
-            PlayerLevelStatsData playerLevelStats = playerData.GetPlayerLevelStatsData(levelData.levelID, gameplayCoreSceneSetupData.difficultyBeatmap.difficulty,
-                gameplayCoreSceneSetupData.difficultyBeatmap.parentDifficultyBeatmapSet.beatmapCharacteristic);
+            var mapType = difficultyBeatmap.parentDifficultyBeatmapSet.beatmapCharacteristic;
+            var mapTypeName = mapType.serializedName;
+            var mapDifficulty = difficultyBeatmap.difficulty;
+            PlayerLevelStatsData playerLevelStats = playerData.GetPlayerLevelStatsData(levelData.levelID, mapDifficulty, mapType);
             MapData.Instance.PreviousRecord = playerLevelStats.highScore;
-            MapData.Instance.MapType = gameplayCoreSceneSetupData.difficultyBeatmap.parentDifficultyBeatmapSet.beatmapCharacteristic.serializedName;
+            MapData.Instance.MapType = mapTypeName;
             MapData.Instance.Environment = gameplayCoreSceneSetupData.environmentInfo.serializedName;
-            MapData.Instance.Difficulty = gameplayCoreSceneSetupData.difficultyBeatmap.difficulty.ToString("g");
-            MapData.Instance.NJS = gameplayCoreSceneSetupData.difficultyBeatmap.noteJumpMovementSpeed;
+            MapData.Instance.Difficulty = mapDifficulty.ToString("g");
+            MapData.Instance.NJS = difficultyBeatmap.noteJumpMovementSpeed;
             MapData.Instance.CustomDifficultyLabel = difficultyData?._difficultyLabel ?? null;
             MapData.Instance.ColorScheme = new SColorScheme
             {
@@ -225,7 +229,7 @@ namespace DataPuller.Core
                     if (songDetailsCache!.songs.FindByHash(mapHash, out Song song))
                     {
                         MapCharacteristic mapType;
-                        switch (gameplayCoreSceneSetupData.difficultyBeatmap.parentDifficultyBeatmapSet.beatmapCharacteristic.serializedName)
+                        switch (mapTypeName)
                         {
                             case "Degree360":
                                 mapType = MapCharacteristic.ThreeSixtyDegree;
@@ -235,7 +239,7 @@ namespace DataPuller.Core
                                 break;
                             default:
                                 if (!Enum.TryParse(
-                                    gameplayCoreSceneSetupData.difficultyBeatmap.parentDifficultyBeatmapSet.beatmapCharacteristic.serializedName,
+                                    mapTypeName,
                                     out mapType
                                 )) return;
                                 break;
@@ -243,12 +247,16 @@ namespace DataPuller.Core
 
                         if (song.GetDifficulty(
                             out SongDifficulty difficulty,
-                            (MapDifficulty)gameplayCoreSceneSetupData.difficultyBeatmap.difficulty,
+                            (MapDifficulty)mapDifficulty,
                             mapType
                         ))
                         {
+#pragma warning disable CS0618 // Type or member is obsolete
                             MapData.Instance.PP = difficulty.approximatePpValue;
                             MapData.Instance.Star = difficulty.stars;
+#pragma warning restore CS0618 // Type or member is obsolete
+                            MapData.Instance.RankedState = MapRankedState(difficulty);
+                            MapData.Instance.Rating = difficulty.song.rating * 100;
                             MapData.Instance.Send();
                         }
                     }
@@ -345,9 +353,28 @@ namespace DataPuller.Core
             LiveData.Instance.Send();
         }
 
+        private SRankedState MapRankedState(SongDifficulty difficulty)
+        {
+
+            var rankedStates = difficulty.song.rankedStates;
+            var ssRanked = (rankedStates & RankedStates.ScoresaberRanked) != 0;
+            var ssQualified = (rankedStates & RankedStates.ScoresaberQualified) != 0;
+            var blRanked = (rankedStates & RankedStates.BeatleaderRanked) != 0;
+            var blQualified = (rankedStates & RankedStates.BeatleaderQualified) != 0;
+            return new SRankedState
+            {
+                ScoresaberQualified = ssQualified,
+                BeatleaderQualified = blQualified,
+                ScoresaberRanked = ssRanked,
+                BeatleaderRanked = blRanked,
+                ScoresaberStars = difficulty.stars,
+                BeatleaderStars = difficulty.starsBeatleader,
+            };
+        }
+
         /// <summary>
         /// Creates the cover image data URL for songs whose cover image cannot be loaded from BeatSaver
-        /// 
+        ///
         /// Credit to https://github.com/ReadieFur/BSDataPuller/issues/28 which was further based on
         /// https://support.unity3d.com/hc/en-us/articles/206486626-How-can-I-get-pixels-from-unreadable-textures-
         /// Modified to correctly handle texture atlases

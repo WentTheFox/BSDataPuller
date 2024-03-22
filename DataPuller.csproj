@@ -3,6 +3,7 @@
   <PropertyGroup>
     <LangVersion>preview</LangVersion>
     <Nullable>enable</Nullable>
+    <BSMTProjectType>BSIPA</BSMTProjectType>
   </PropertyGroup>
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -155,6 +156,7 @@
     <Compile Include="Attributes\DefaultValueAttribute.cs" />
     <Compile Include="Data\PartyData.cs" />
     <Compile Include="Data\SLocalLeaderboardScore.cs" />
+    <Compile Include="Data\SRankedState.cs" />
     <Compile Include="Data\SRGBAColor.cs" />
     <Compile Include="Data\ModData.cs" />
     <Compile Include="Data\SBlockHitScore.cs" />
