@@ -2,13 +2,13 @@
 DataPuller
 
 ## Mod Version
-2.1.12
+2.1.13
 
 ## Game Version
-1.34.2
+1.35.0
 
 ## Dependencies
-SiraUtil@3.1.6,SongCore@3.12.2,BSIPA@4.3.2,BeatSaverSharp@3.4.5,SongDetailsCache@1.2.2,websocket-sharp@1.0.4
+SiraUtil@3.1.7,SongCore@3.13.0,BSIPA@4.3.3,BeatSaverSharp@3.4.5,SongDetailsCache@1.2.2,websocket-sharp@1.0.4
 
 ## Category
 Tweaks/Tools

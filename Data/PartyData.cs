@@ -25,11 +25,13 @@ namespace DataPuller.Data
         /// <value>Default is <see href="null"/>.</value>
         public string? LeaderboardType { get; internal set; }
 
+#pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
         /// <summary>List of scores for the specific leaderboard</summary>
         /// <remarks></remarks>
         /// <value>Default is an empty list.</value>
         [DefaultValueT<List<SLocalLeaderboardScore>>]
         public List<SLocalLeaderboardScore> Scores { get; internal set; }
+#pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
         #endregion
     }
 }

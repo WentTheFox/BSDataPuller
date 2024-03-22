@@ -67,19 +67,25 @@
       <Private>False</Private>
       <SpecificVersion>False</SpecificVersion>
     </Reference>
+    <Reference Include="BGLib.AppFlow, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null" />
     <Reference Include="BGLib.UnityExtension, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <Private>False</Private>
       <HintPath>$(BeatSaberReferences)\Beat Saber_Data\Managed\BGLib.UnityExtension.dll</HintPath>
       <SpecificVersion>False</SpecificVersion>
     </Reference>
-    <Reference Include="BGNet, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="BGNetCore, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <Private>False</Private>
-      <HintPath>$(GameDirectory)\Beat Saber_Data\Managed\BGNet.dll</HintPath>
+      <HintPath>$(GameDirectory)\Beat Saber_Data\Managed\BGNetCore.dll</HintPath>
       <SpecificVersion>False</SpecificVersion>
     </Reference>
     <Reference Include="Colors, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <Private>False</Private>
       <HintPath>$(GameDirectory)\Beat Saber_Data\Managed\Colors.dll</HintPath>
+      <SpecificVersion>False</SpecificVersion>
+    </Reference>
+    <Reference Include="DataModels, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <Private>False</Private>
+      <HintPath>$(GameDirectory)\Beat Saber_Data\Managed\DataModels.dll</HintPath>
       <SpecificVersion>False</SpecificVersion>
     </Reference>
     <Reference Include="GameplayCore">
@@ -161,6 +167,7 @@
     <Compile Include="Attributes\DefaultValueAttribute.cs" />
     <Compile Include="Data\PartyData.cs" />
     <Compile Include="Data\SLocalLeaderboardScore.cs" />
+    <Compile Include="Data\SRankedState.cs" />
     <Compile Include="Data\SRGBAColor.cs" />
     <Compile Include="Data\ModData.cs" />
     <Compile Include="Data\SBlockHitScore.cs" />

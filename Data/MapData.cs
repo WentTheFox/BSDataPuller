@@ -1,4 +1,6 @@
-﻿using System.Reflection;
+﻿using System;
+using System.Collections.Generic;
+using System.Reflection;
 using DataPuller.Attributes;
 using Newtonsoft.Json;
 using SongCore.Utilities;
@@ -77,11 +79,30 @@ namespace DataPuller.Data
         [DefaultValue("")]
         public string SongAuthor { get; internal set; }
 
-        /// <summary>The mapper of the current chart.</summary>
+        /// <summary>The mappers of the current map (as a single comma-separated string, legacy value for backwards-compatibility).</summary>
+        /// <remarks></remarks>
+        /// <value>Default is <see cref="string.Empty"/>.</value>
+        [Obsolete("Use Mappers instead")]
+        [DefaultValue("")]
+        public string Mapper { get; internal set; }
+
+        /// <summary>The mappers of the current map as a list of names.</summary>
+        /// <remarks></remarks>
+        /// <value>Default is an empty list.</value>
+        [DefaultValueT<List<string>>]
+        public List<string> Mappers { get; internal set; }
+
+        /// <summary>The lighters of the current map as a list of names.</summary>
+        /// <remarks></remarks>
+        /// <value>Default is an empty list.</value>
+        [DefaultValueT<List<string>>]
+        public List<string> Lighters { get; internal set; }
+
+        /// <summary>The content rating of the current map.</summary>
         /// <remarks></remarks>
         /// <value>Default is <see cref="string.Empty"/>.</value>
         [DefaultValue("")]
-        public string Mapper { get; internal set; }
+        public string ContentRating { get; internal set; }
 #pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
 
         /// <summary></summary>
@@ -161,17 +182,30 @@ namespace DataPuller.Data
 #pragma warning disable CS8618
         [DefaultValueT<PracticeModeModifiers>]
         public PracticeModeModifiers PracticeModeModifiers { get; internal set; }
+#pragma warning restore CS8618
 
-        /// <summary>The amount Play Points this map is worth.</summary>
+        /// <summary>The approximate amount of performance points this map is worth (legacy value for backwards-compatibility)</summary>
         /// <remarks><see href="0"/> if the map is unranked or the value was undetermined.</remarks>
         /// <value>Default is <see href="0"/>.</value>
-#pragma warning restore CS8618
+        [Obsolete("This field is marked for removal in SongdDetailsCache, do not rely on it")]
         public double PP { get; internal set; }
 
-        /// <summary></summary>
+        /// <summary>ScoreSaber stars (legacy value for backwards-compatibility)</summary>
         /// <remarks><see href="0"/> if the value was undetermined.</remarks>
         /// <value>Default is <see href="0"/>.</value>
+        [DefaultValue(0)]
+        [Obsolete("Please use RankedState.ScoresaberStars")]
         public double Star { get; internal set; }
+
+        /// <summary>Ranked state for the current map.</summary>
+        /// <value>Default is <see cref="SRankedState"/>.</value>
+        public SRankedState RankedState { get; internal set; }
+
+        /// <summary>Song rating percentage on BeatSaver (0-100)</summary>
+        /// <remarks><see href="null"/> if the value was undetermined.</remarks>
+        /// <value>Default is <see href="null"/>.</value>
+        [DefaultValue(null)]
+        public float? Rating { get; internal set; }
         #endregion
 
         #region User Preferences
@@ -185,13 +219,13 @@ namespace DataPuller.Data
         #region Misc
         /// <summary></summary>
         /// <remarks></remarks>
-        /// <value>Default is <see cref="UnityEngine.Application.version"/>.</value>
+        /// <value>Default is <see cref="Application.version"/>.</value>
         [JsonProperty]
-        public static readonly string GameVersion = UnityEngine.Application.version;
+        public static readonly string GameVersion = Application.version;
 
         /// <summary></summary>
         /// <remarks></remarks>
-        /// <value><see cref="System.Version"/>.</value>
+        /// <value><see cref="Version"/>.</value>
         [JsonProperty]
         public static readonly string PluginVersion = Assembly.GetExecutingAssembly().GetName().Version.ToString(3);
 

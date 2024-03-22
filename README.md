@@ -140,8 +140,17 @@ string SongSubName = "";
 ///The author of the song.
 string SongAuthor = "";
 
-///The mapper of the current chart.
+///The mappers of the current map (as a single comma-separated string, legacy value for backwards-compatibility).
 string Mapper = "";
+
+///The mappers of the current map as a list of names.
+List<string> Mappers = [];
+
+///The lighters of the current map as a list of names.
+List<string> Lighters = [];
+
+///The content rating of the current map.
+string ContentRating = "";
 
 ///The BSR key of the current map.
 ///null if the BSR key could not be obtained.
@@ -185,12 +194,21 @@ bool PracticeMode = false;
 ///The modifiers selected by the user that are specific to practice mode.
 PracticeModeModifiers PracticeModeModifiers = new PracticeModeModifiers();
 
-///The amount Play Points this map is worth.
+///The approximate amount of performance points this map is worth (legacy value for backwards-compatibility)
 ///0 if the map is unranked or the value was undetermined.
 double PP = 0;
 
+///ScoreSaber stars (legacy value for backwards-compatibility)
 ///0 if the value was undetermined.
 double Star = 0;
+
+///Ranked state for the current map.
+///0 if the value was undetermined.
+SRankedState RankedState = new SRankedState();
+
+///Song rating percentage on BeatSaver (0-100)
+///0 if the value was undetermined.
+float Rating = 0;
 
 ///The color scheme for the currently playing map.
 SColorScheme ColorScheme = new SColorScheme();
@@ -277,6 +295,30 @@ int Green = 0;
 int Blue = 0;
 /// 0.0  to 1.0
 float Alpha = 0.0;
+```
+
+##### SRankedState
+This is a sub-object of `MapData` and it doesn't extend the `AData` class, there is no endpoint for this type.
+Type: `struct`
+```cs
+/// Is map ranked on any leaderboards
+bool Ranked = false;
+/// Is map qualified on any leaderboards
+bool Qualified = false;
+/// Is map qualified on BeatLeader
+bool BeatleaderQualified = false;
+/// Is map qualified on ScoreSaber
+bool ScoresaberQualified = false;
+/// Is map ranked on BeatLeader
+bool BeatleaderRanked = false;
+/// Is map ranked on ScoreSaber
+bool ScoresaberRanked = false;
+///BeatLeader stars
+///0 if the value was undetermined.
+double BeatleaderStars = 0;
+///ScoreSaber stars
+///0 if the value was undetermined.
+double ScoresaberStars = 0;
 ```
 
 </details>
