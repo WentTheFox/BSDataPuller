@@ -182,7 +182,7 @@
     <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="Harmony\BeatmapObjectExecutionRatingsRecorder.cs" />
     <Compile Include="Harmony\LocalLeaderboardViewControllerPatch.cs" />
-    <Compile Include="Harmony\MultiplayerSessionManager.cs" />
+    <Compile Include="Harmony\MultiplayerSessionManagerPatch.cs" />
     <Compile Include="Installers\MenuInstallers.cs" />
     <Compile Include="Installers\AppInstallers.cs" />
     <Compile Include="Installers\PlayerInstallers.cs" />
