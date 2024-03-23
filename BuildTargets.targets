@@ -37,7 +37,7 @@
   </Target>
   <Target Name="CopyToPlugins" AfterTargets="Build" Condition="'$(DisableCopyToPlugins)' != 'True'">
     <Error Text="Unable to copy assembly to game folder. GameDirectory doesn't exist: $(GameDirectory)" Condition="!Exists($(GameDirectory))"/>
-    <Message Text="Copying $(OutputPath)$(AssemblyName).dll to Plugins folder" Importance="high" />
+    <Message Text="Copying $(OutputPath)$(AssemblyName).dll to $(GameDirectory)\Plugins folder" Importance="high" />
     <Copy SourceFiles="$(OutputPath)$(AssemblyName).dll" DestinationFiles="$(GameDirectory)\Plugins\$(AssemblyName).dll" />
     <Copy SourceFiles="$(OutputPath)$(AssemblyName).pdb" DestinationFiles="$(GameDirectory)\Plugins\$(AssemblyName).pdb" />
   </Target>
