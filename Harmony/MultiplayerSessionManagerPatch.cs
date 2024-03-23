@@ -5,11 +5,11 @@ using HarmonyLib;
 namespace DataPuller.Harmony
 {
     [HarmonyPatch(typeof(global::MultiplayerSessionManager), nameof(global::MultiplayerSessionManager.StartSession))]
-    internal class MultiplayerSessionManager
+    internal class MultiplayerSessionManagerPatch
     {
         private static ConnectedPlayerManager? _connectedPlayerManager;
-        private static int _maxPlayerCount;
-        
+        private static int _maxPlayerCount = 0;
+
         [HarmonyPostfix]
         public static void StartSession_PostFix(ref ConnectedPlayerManager connectedPlayerManager)
         {
@@ -22,7 +22,6 @@ namespace DataPuller.Harmony
             UpdatePlayerCount();
         }
 
-        
         [HarmonyPostfix]
         [HarmonyPatch(typeof(global::MultiplayerSessionManager), nameof(global::MultiplayerSessionManager.SetMaxPlayerCount))]
         public static void SetMaxPlayerCount_PostFix(ref int maxPlayerCount)
@@ -30,7 +29,7 @@ namespace DataPuller.Harmony
             _maxPlayerCount = maxPlayerCount;
             UpdatePlayerCount();
         }
-        
+
         [HarmonyPostfix]
         [HarmonyPatch(typeof(global::MultiplayerSessionManager), nameof(global::MultiplayerSessionManager.EndSession))]
         public static void EndSession_PostFix()
@@ -60,7 +59,7 @@ namespace DataPuller.Harmony
             UpdatePlayerCount();
         }
 
-        private static void UpdatePlayerCount()
+        internal static void UpdatePlayerCount()
         {
             MapData.Instance.MultiplayerLobbyMaxSize = _maxPlayerCount;
             MapData.Instance.MultiplayerLobbyCurrentSize = _connectedPlayerManager?.connectedPlayerCount ?? 0;

@@ -6,6 +6,7 @@ using System.Reflection;
 using System.Timers;
 using BeatSaverSharp;
 using DataPuller.Data;
+using DataPuller.Harmony;
 using HarmonyLib;
 using IPA.Utilities;
 using SongDetailsCache;
@@ -62,13 +63,12 @@ namespace DataPuller.Core
                 {
                     Plugin.Logger.Debug("In multiplayer.");
 
-                    MapData.Instance.Send();
-                    LiveData.Instance.Send();
-
                     multiplayerController.stateChangedEvent += MultiplayerController_stateChangedEvent;
                     scoreController.scoreDidChangeEvent += ScoreDidChangeEvent;
 
                     MapData.Instance.IsMultiplayer = true;
+                    MultiplayerSessionManagerPatch.UpdatePlayerCount();
+                    LiveData.Instance.Send();
                 }
                 else if (IsLegacyReplay() && relativeScoreAndImmediateRankCounter is not null && scoreUIController is not null) //Legacy Replay
                 {
