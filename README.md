@@ -5,12 +5,12 @@ Gathers data about the current map you are playing to then be sent out over a we
 To install this mod, download the [latest version](./releases/latest) and place the `DataPuller.dll` into your mods folder. Make sure to also have any of the dependencies listed below installed too.
 ### Dependencies, these can all be found on the [Mod Assistant](https://github.com/Assistant/ModAssistant) app:
 In order for this mod to function properly you must have installed the following mods:
-- [BSIPA ^4.3.2](https://github.com/bsmg/BeatSaber-IPA-Reloaded)
+- [BSIPA ^4.3.3](https://github.com/bsmg/BeatSaber-IPA-Reloaded)
 - [BeatSaverSharp ^3.4.5](https://github.com/Auros/BeatSaverSharper)
 - [WebsocketSharp ^1.0.4](assets/websocket-sharp-1.0.4.zip)
-- [SongCore ^3.12.2](https://github.com/Kylemc1413/SongCore)
+- [SongCore ^3.13.0](https://github.com/Kylemc1413/SongCore)
 - [SongDetailsCache ^1.2.2](https://github.com/kinsi55/BeatSaber_SongDetails)
-- [SiraUtil ^3.1.6](https://github.com/Auros/SiraUtil)
+- [SiraUtil ^3.1.7](https://github.com/Auros/SiraUtil)
 
 ## Overlays:
 There are few overlays that I know of at the moment that work with this mod but here are some:
@@ -140,7 +140,7 @@ string SongSubName = "";
 ///The author of the song.
 string SongAuthor = "";
 
-///The mappers of the current map (as a single comma-separated string, legacy value for backwards-compatibility).
+///Comma-separated names of mappers and lighters of the current map (property name kept for backwards-compatibility).
 string Mapper = "";
 
 ///The mappers of the current map as a list of names.

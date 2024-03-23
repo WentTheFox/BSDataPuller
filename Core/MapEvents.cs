@@ -200,12 +200,14 @@ namespace DataPuller.Core
             MapData.Instance.SongName = levelData.songName;
             MapData.Instance.SongSubName = levelData.songSubName;
             MapData.Instance.SongAuthor = levelData.songAuthorName;
-            var mappers = levelBasicData.mappers;
+
+            List<string> mappersList = SelectLeastEmptyArryAsList(levelBasicData.mappers, levelData.allMappers);
+            List<string> lightersList = SelectLeastEmptyArryAsList(levelBasicData.lighters, levelData.allLighters);
 #pragma warning disable CS0618 // Type or member is obsolete
-            MapData.Instance.Mapper = String.Join(", ", mappers);
+            MapData.Instance.Mapper = GetContributorsString(mappersList, lightersList);
 #pragma warning restore CS0618 // Type or member is obsolete
-            MapData.Instance.Mappers = mappers.ToList();
-            MapData.Instance.Lighters = levelBasicData.lighters.ToList();
+            MapData.Instance.Mappers = mappersList;
+            MapData.Instance.Lighters = lightersList;
             MapData.Instance.BPM = Convert.ToInt32(Math.Round(levelData.beatsPerMinute));
             MapData.Instance.Duration = Convert.ToInt32(Math.Round(audioTimeSyncController.songLength));
             PlayerLevelStatsData playerLevelStats = playerData.GetOrCreatePlayerLevelStatsData(beatmapKey);
@@ -356,6 +358,19 @@ namespace DataPuller.Core
 
             MapData.Instance.Send();
             LiveData.Instance.Send();
+        }
+
+        private string GetContributorsString(List<string> mappersList, List<string> lightersList)
+        {
+            // Approach shamelessly copied from SongCore
+            // https://github.com/Kylemc1413/SongCore/blob/03d5a708b959107190442778043ba3653bce09ff/source/SongCore/HarmonyPatches/LevelSelectionPatch.cs#L16
+            return mappersList.Concat(lightersList).Join();
+        }
+
+        private List<string> SelectLeastEmptyArryAsList(string[] arr1, string[] arr2)
+        {
+            string[] dataSource = arr1.Length > 0 ? arr1 : arr2;
+            return dataSource.ToList();
         }
 
         private SRankedState MapRankedState(SongDifficulty difficulty)

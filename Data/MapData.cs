@@ -79,10 +79,9 @@ namespace DataPuller.Data
         [DefaultValue("")]
         public string SongAuthor { get; internal set; }
 
-        /// <summary>The mappers of the current map (as a single comma-separated string, legacy value for backwards-compatibility).</summary>
+        /// <summary>Comma-separated names of mappers and lighters of the current map (property name kept for backwards-compatibility).</summary>
         /// <remarks></remarks>
         /// <value>Default is <see cref="string.Empty"/>.</value>
-        [Obsolete("Use Mappers instead")]
         [DefaultValue("")]
         public string Mapper { get; internal set; }
 
