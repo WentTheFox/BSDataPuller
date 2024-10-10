@@ -3,16 +3,16 @@
   "id": "DataPuller",
   "name": "DataPuller",
   "author": "ReadieFur",
-  "version": "2.1.14",
+  "version": "2.1.15",
   "description": "Gathers data about the current map you are playing to then be sent out over a websocket for other software to use, e.g. A web overlay like BSDP-Overlay. This mod works with multi PC setups!",
-  "gameVersion": "1.35.0",
+  "gameVersion": "1.38.0",
   "dependsOn": {
-    "BSIPA": "^4.3.3",
+    "BSIPA": "^4.3.5",
     "BeatSaverSharp": "^3.4.5",
     "websocket-sharp": "^1.0.4",
-    "SongCore": "^3.13.0",
+    "SongCore": "^3.14.15",
     "SongDetailsCache": "^1.2.2",
-    "SiraUtil": "^3.1.7"
+    "SiraUtil": "^3.1.12"
   },
   "links": {
     "project-home": "https://readiefur.com/bsdp-overlay/",

@@ -214,7 +214,7 @@ namespace DataPuller.Core
             MapData.Instance.PreviousRecord = playerLevelStats.highScore;
             var mapTypeName = beatmapKey.beatmapCharacteristic.serializedName;
             MapData.Instance.MapType = mapTypeName;
-            MapData.Instance.Environment = gameplayCoreSceneSetupData.environmentInfo.serializedName;
+            MapData.Instance.Environment = gameplayCoreSceneSetupData.targetEnvironmentInfo.serializedName;
             MapData.Instance.Difficulty = beatmapKey.difficulty.ToString("g");
             MapData.Instance.NJS = levelBasicData.noteJumpMovementSpeed;
             MapData.Instance.CustomDifficultyLabel = difficultyData?._difficultyLabel ?? null;
@@ -404,12 +404,12 @@ namespace DataPuller.Core
         {
             try
             {
-                var coverImageSprite = await levelData.previewMediaData.GetCoverSpriteAsync(System.Threading.CancellationToken.None);
+                var coverImageSprite = await levelData.previewMediaData.GetCoverSpriteAsync();
                 if (coverImageSprite != null)
                 {
                     var activeRenderTexture = RenderTexture.active;
                     var texture = coverImageSprite.texture;
-                    var temporary = RenderTexture.GetTemporary(texture.width, texture.height, 0, RenderTextureFormat.Default, RenderTextureReadWrite.Linear);
+                    var temporary = RenderTexture.GetTemporary(texture.width, texture.height, 0, RenderTextureFormat.Default, RenderTextureReadWrite.Default);
                     try
                     {
                         Graphics.Blit(texture, temporary);
@@ -417,18 +417,11 @@ namespace DataPuller.Core
 
                         try
                         {
-                            var spriteRect = coverImageSprite.rect;
-                            var uv = coverImageSprite.uv[0];
+                            var textureRect = coverImageSprite.textureRect;
 
-                            var cover = new Texture2D((int)spriteRect.width, (int)spriteRect.height);
-                            // The coordinates of the sprite on its texture atlas are only accessible through the Sprite.uv property since rect always returns `x=0,y=0`, so we need to convert them back into texture space.
+                            var cover = new Texture2D((int)textureRect.width, (int)textureRect.height);
                             cover.ReadPixels(
-                                new Rect(
-                                    uv.x * texture.width,
-                                    texture.height - uv.y * texture.height,
-                                    spriteRect.width,
-                                    spriteRect.height
-                                ),
+                                textureRect,
                                 0,
                                 0
                             );
@@ -447,8 +440,9 @@ namespace DataPuller.Core
                     }
                 }
             }
-            catch
+            catch (Exception e)
             {
+                Plugin.Logger.Error(e.Message + "\n" + e.StackTrace);
                 MapData.Instance.CoverImage = null;
             }
         }
