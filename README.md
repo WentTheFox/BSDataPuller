@@ -114,6 +114,8 @@ This data gets updated whenever:
 ```cs
 //====LEVEL====
 ///This can remain false even if LevelFailed is true, when Modifiers.NoFailOn0Energy is true.
+bool InLevel = false;
+
 bool LevelPaused = false;
 
 bool LevelFinished = false;
