@@ -18,7 +18,6 @@ There are few overlays that I know of at the moment that work with this mod but 
 | --- | --- |
 | [BSDP-Overlay](https://github.com/ReadieFur/BSDP-Overlay) | ReadieFur |
 | [Freakylay](https://github.com/UnskilledFreak/Freakylay) | UnskilledFreak |
-| [HyldraZolxy](https://github.com/HyldraZolxy/BeatSaber-Overlay) | HyldraZolxy |
 | [Beat-Saber-Overlay](https://github.com/DJDavid98/Beat-Saber-Overlay) | DJDavid98 |
 
 ## Project status:
