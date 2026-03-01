@@ -18,14 +18,14 @@ There are few overlays that I know of at the moment that work with this mod but 
 | --- | --- |
 | [BSDP-Overlay](https://github.com/ReadieFur/BSDP-Overlay) | ReadieFur |
 | [Freakylay](https://github.com/UnskilledFreak/Freakylay) | UnskilledFreak |
-| [Beat-Saber-Overlay](https://github.com/DJDavid98/Beat-Saber-Overlay) | DJDavid98 |
+| [Beat-Saber-Overlay](https://github.com/WentTheFox/Beat-Saber-Overlay) | WentTheFox |
 
 ## Project status:
 The [original repository](https://github.com/ReadieFur/BSDataPuller) has not been updated for over a year (at the time of writing) and appears to have been abandoned for all intents and purposes.
 
-This fork is actively maintained by me ([DJDavid98](https://github.com/DJDavid98)) and new features/fixes are added on request to the best of my abilities.
+This fork is maintained by me ([WentTheFox](https://github.com/WentTheFox)), though it's unlikely I'll add new features as I have personally stopped playing/streaming the game myself.
 
-Don't hesitate to open an issue or reach out in case you feel there is something that could be added/improved.
+Feel free to open an issue or reach out in case you feel there is something that could be added/improved, but do not expect a quick response. I also cannot guarantee that it will be implemented/fixed if it requires substantial effort on my end.
 
 
 ## Output data:
