@@ -8,7 +8,7 @@ namespace DataPuller.Core
 {
     internal class LocalLeaderboardEvents : IInitializable, IDisposable
     {
-        [InjectOptional] private LocalLeaderboardViewController? localLeaderboardViewController;
+        [InjectOptional] private LocalLeaderboardViewController? localLeaderboardViewController = null;
 
         public void Initialize()
         {
