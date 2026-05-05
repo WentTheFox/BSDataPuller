@@ -1,10 +1,11 @@
-﻿using System;
+using System;
 using System.Reflection;
 using IPA;
 using IPALogger = IPA.Logging.Logger;
 using SiraUtil.Zenject;
 using DataPuller.Installers;
 using DataPuller.Data;
+using DataPuller.Multiplayer;
 using IPA.Loader;
 using System.Linq;
 using System.Threading.Tasks;
@@ -52,6 +53,7 @@ namespace DataPuller
         {
             Logger.Debug("OnApplicationStart");
             HandlePluginsStateChanged();
+            MultiplayerSources.Init();
         }
 
         internal void HandlePluginsStateChanged(Task changeTask, IEnumerable<PluginMetadata> enabled, IEnumerable<PluginMetadata> disabled)
@@ -79,6 +81,7 @@ namespace DataPuller
         public void OnApplicationQuit()
         {
             webSocketServer?.Dispose();
+            MultiplayerSources.Dispose();
 
             PluginManager.OnAnyPluginsStateChanged -= HandlePluginsStateChanged;
 

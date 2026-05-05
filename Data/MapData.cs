@@ -246,6 +246,21 @@ namespace DataPuller.Data
         [DefaultValue(0)]
         public int MultiplayerLobbyCurrentSize { get; internal set; }
 
+        /// <summary>The alphanumeric join code for the current multiplayer lobby.</summary>
+        /// <remarks><see href="null"/> if not in a multiplayer lobby or the code is not yet available.</remarks>
+        /// <value>Default is <see href="null"/>.</value>
+        public string? MultiplayerLobbyJoinCode { get; internal set; }
+
+        /// <summary>The multiplayer backend for the current lobby, as a string matching <see cref="MultiplayerLobbySourceType"/> member names.</summary>
+        /// <remarks><see href="null"/> when not in multiplayer. Possible values: <c>Vanilla</c>, <c>BeatTogether</c>, <c>BeatSaberPlus_Multiplayer</c>.</remarks>
+        /// <value>Default is <see href="null"/>.</value>
+        public string? MultiplayerLobbySource { get; internal set; }
+
+        /// <summary>Whether the current BeatSaberPlus Multiplayer+ lobby is private.</summary>
+        /// <remarks><see href="null"/> when not in multiplayer or source is not BeatSaberPlus.</remarks>
+        /// <value>Default is <see href="null"/>.</value>
+        public bool? MultiplayerLobbyIsPrivate { get; internal set; }
+
         /// <summary>The previous local record set by the player for this map specific mode and difficulty.</summary>
         /// <remarks><see href="0"/> if the map variant hasn't never been played before.</remarks>
         /// <value>Default is <see href="0"/>.</value>

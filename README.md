@@ -109,6 +109,9 @@ Type: `class`
 This data gets updated whenever:
 - The map is changed
 - A level is quit/paused/failed/finished
+- A multiplayer lobby is joined or left
+- A multiplayer lobby join code becomes available
+- The player count in the current multiplayer lobby changes
 
 ```cs
 //====LEVEL====
@@ -220,6 +223,28 @@ string GameVersion = ""; //Will be the current game version, e.g. 1.20.0
 string PluginVersion = ""; //Will be the current version of the plugin, e.g. 2.1.0
 
 bool IsMultiplayer = false;
+
+///The maximum number of players that can join the current lobby.
+///0 when not in a multiplayer lobby.
+int MultiplayerLobbyMaxSize = 0;
+
+///The number of players currently connected to the current lobby.
+///0 when not in a multiplayer lobby.
+int MultiplayerLobbyCurrentSize = 0;
+
+///The alphanumeric join code for the current multiplayer lobby.
+///null when not in a multiplayer lobby, or if the code has not yet been assigned by the server.
+string? MultiplayerLobbyJoinCode = null;
+
+///The BSIPA plugin ID of the mod providing the multiplayer backend for the current lobby.
+///"Vanilla" when no known multiplayer mod is active.
+///Known values: "Vanilla", "BeatTogether", "BeatSaberPlus_Multiplayer".
+///null when not in a multiplayer lobby.
+string? MultiplayerLobbySource = null;
+
+///Whether the current BeatSaberPlus Multiplayer+ lobby is set to private.
+///null when not in a multiplayer lobby, or when the source is not BeatSaberPlus_Multiplayer.
+bool? MultiplayerLobbyIsPrivate = null;
 
 ///The previous local record set by the player for this map specific mode and difficulty.
 ///0 if the map variant hasn't never been played before.

@@ -1,47 +1,32 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="15.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<?xml version="1.0" encoding="utf-8"?>
+<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <LangVersion>preview</LangVersion>
-    <Nullable>enable</Nullable>
-    <BSMTProjectType>BSIPA</BSMTProjectType>
-  </PropertyGroup>
-  <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>8.0.30703</ProductVersion>
-    <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{6852E665-85AF-4405-AF90-AA1356D95ED7}</ProjectGuid>
+    <TargetFramework>net48</TargetFramework>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>DataPuller</RootNamespace>
     <AssemblyName>DataPuller</AssemblyName>
-    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
-    <FileAlignment>512</FileAlignment>
-    <DebugType>portable</DebugType>
-    <GameDirectory>$(ProjectDir)Refs</GameDirectory>
-    <BeatSaberReferences>$(GameDirectory)</BeatSaberReferences>
-    <ReferencePath>$(SolutionDir)Refs</ReferencePath>
+    <LangVersion>latest</LangVersion>
+    <Nullable>enable</Nullable>
+    <Platforms>AnyCPU</Platforms>
+    <LocalRefsDir Condition="Exists('..\Refs')">..\Refs</LocalRefsDir>
+    <BeatSaberDir>$(LocalRefsDir)</BeatSaberDir>
     <AppOutputBase>$(MSBuildProjectDirectory)\</AppOutputBase>
     <PathMap>$(AppOutputBase)=X:\$(AssemblyName)\</PathMap>
-    <NuGetPackageImportStamp>
-    </NuGetPackageImportStamp>
+    <BSMTProjectType>BSIPA</BSMTProjectType>
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+    <RestoreProjectStyle>PackageReference</RestoreProjectStyle>
+    <DefaultItemExcludes>$(DefaultItemExcludes);packages\**</DefaultItemExcludes>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+  <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
     <DebugSymbols>true</DebugSymbols>
+    <DebugType>portable</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <DocumentationFile>bin\Debug\DataPuller.xml</DocumentationFile>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+  <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+    <DebugType>portable</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>
-    </DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
     <DocumentationFile>bin\Release\DataPuller.xml</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition="$(DefineConstants.Contains('CIBuild')) OR '$(NCrunch)' == '1'">
@@ -51,165 +36,118 @@
     <DisableCopyToPlugins>True</DisableCopyToPlugins>
     <DisableZipRelease>True</DisableZipRelease>
   </PropertyGroup>
+
   <ItemGroup>
     <Reference Include="0Harmony">
-      <HintPath>$(GameDirectory)\Libs\0Harmony.dll</HintPath>
+      <HintPath>$(BeatSaberDir)\Libs\0Harmony.dll</HintPath>
       <Private>False</Private>
-      <SpecificVersion>False</SpecificVersion>
     </Reference>
     <Reference Include="BeatmapCore">
-      <HintPath>$(GameDirectory)\Beat Saber_Data\Managed\BeatmapCore.dll</HintPath>
+      <HintPath>$(BeatSaberDir)\Beat Saber_Data\Managed\BeatmapCore.dll</HintPath>
       <Private>False</Private>
-      <SpecificVersion>False</SpecificVersion>
     </Reference>
     <Reference Include="BeatSaverSharp">
-      <HintPath>$(GameDirectory)\Libs\BeatSaverSharp.dll</HintPath>
+      <HintPath>$(BeatSaberDir)\Libs\BeatSaverSharp.dll</HintPath>
       <Private>False</Private>
-      <SpecificVersion>False</SpecificVersion>
     </Reference>
-    <Reference Include="BGLib.AppFlow, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null" />
-    <Reference Include="BGLib.UnityExtension, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="BGLib.AppFlow">
+      <HintPath>$(BeatSaberDir)\Beat Saber_Data\Managed\BGLib.AppFlow.dll</HintPath>
       <Private>False</Private>
-      <HintPath>$(BeatSaberReferences)\Beat Saber_Data\Managed\BGLib.UnityExtension.dll</HintPath>
-      <SpecificVersion>False</SpecificVersion>
     </Reference>
-    <Reference Include="BGNetCore, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="BGLib.UnityExtension">
+      <HintPath>$(BeatSaberDir)\Beat Saber_Data\Managed\BGLib.UnityExtension.dll</HintPath>
       <Private>False</Private>
-      <HintPath>$(GameDirectory)\Beat Saber_Data\Managed\BGNetCore.dll</HintPath>
-      <SpecificVersion>False</SpecificVersion>
     </Reference>
-    <Reference Include="Colors, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="BGNetCore">
+      <HintPath>$(BeatSaberDir)\Beat Saber_Data\Managed\BGNetCore.dll</HintPath>
       <Private>False</Private>
-      <HintPath>$(GameDirectory)\Beat Saber_Data\Managed\Colors.dll</HintPath>
-      <SpecificVersion>False</SpecificVersion>
     </Reference>
-    <Reference Include="DataModels, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="Colors">
+      <HintPath>$(BeatSaberDir)\Beat Saber_Data\Managed\Colors.dll</HintPath>
       <Private>False</Private>
-      <HintPath>$(GameDirectory)\Beat Saber_Data\Managed\DataModels.dll</HintPath>
-      <SpecificVersion>False</SpecificVersion>
+    </Reference>
+    <Reference Include="DataModels">
+      <HintPath>$(BeatSaberDir)\Beat Saber_Data\Managed\DataModels.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="GameplayCore">
-      <HintPath>$(GameDirectory)\Beat Saber_Data\Managed\GameplayCore.dll</HintPath>
+      <HintPath>$(BeatSaberDir)\Beat Saber_Data\Managed\GameplayCore.dll</HintPath>
       <Private>False</Private>
-      <SpecificVersion>False</SpecificVersion>
     </Reference>
-    <Reference Include="Hive.Versioning, Version=0.1.0.0, Culture=neutral, PublicKeyToken=null" />
-    <Reference Include="HMLib, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="Hive.Versioning">
+      <HintPath>$(BeatSaberDir)\Libs\Hive.Versioning.dll</HintPath>
       <Private>False</Private>
-      <HintPath>$(GameDirectory)\Beat Saber_Data\Managed\HMLib.dll</HintPath>
-      <SpecificVersion>False</SpecificVersion>
+    </Reference>
+    <Reference Include="HMLib">
+      <HintPath>$(BeatSaberDir)\Beat Saber_Data\Managed\HMLib.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="IPA.Loader">
-      <HintPath>$(GameDirectory)\Beat Saber_Data\Managed\IPA.Loader.dll</HintPath>
+      <HintPath>$(BeatSaberDir)\Beat Saber_Data\Managed\IPA.Loader.dll</HintPath>
       <Private>False</Private>
-      <SpecificVersion>False</SpecificVersion>
     </Reference>
     <Reference Include="Main">
-      <HintPath>$(GameDirectory)\Beat Saber_Data\Managed\Main.dll</HintPath>
+      <HintPath>$(BeatSaberDir)\Beat Saber_Data\Managed\Main.dll</HintPath>
       <Private>False</Private>
-      <SpecificVersion>False</SpecificVersion>
     </Reference>
-    <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>packages\Newtonsoft.Json.13.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>$(BeatSaberDir)\Libs\Newtonsoft.Json.dll</HintPath>
+      <Private>False</Private>
     </Reference>
-    <Reference Include="PresentationCore" />
-    <Reference Include="PresentationFramework" />
     <Reference Include="SiraUtil">
-      <HintPath>$(GameDirectory)\Plugins\SiraUtil.dll</HintPath>
+      <HintPath>$(BeatSaberDir)\Plugins\SiraUtil.dll</HintPath>
       <Private>False</Private>
-      <SpecificVersion>False</SpecificVersion>
     </Reference>
-    <Reference Include="SongCore, Version=3.0.1.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>$(GameDirectory)\Plugins\SongCore.dll</HintPath>
+    <Reference Include="SongCore">
+      <HintPath>$(BeatSaberDir)\Plugins\SongCore.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="SongDetailsCache">
-      <HintPath>$(GameDirectory)\Libs\SongDetailsCache.dll</HintPath>
+      <HintPath>$(BeatSaberDir)\Libs\SongDetailsCache.dll</HintPath>
       <Private>False</Private>
-      <SpecificVersion>False</SpecificVersion>
     </Reference>
-    <Reference Include="System" />
     <Reference Include="Unity.TextMeshPro">
-      <HintPath>$(GameDirectory)\Beat Saber_Data\Managed\Unity.TextMeshPro.dll</HintPath>
+      <HintPath>$(BeatSaberDir)\Beat Saber_Data\Managed\Unity.TextMeshPro.dll</HintPath>
       <Private>False</Private>
-      <SpecificVersion>False</SpecificVersion>
     </Reference>
     <Reference Include="UnityEngine.CoreModule">
-      <HintPath>$(GameDirectory)\Beat Saber_Data\Managed\UnityEngine.CoreModule.dll</HintPath>
+      <HintPath>$(BeatSaberDir)\Beat Saber_Data\Managed\UnityEngine.CoreModule.dll</HintPath>
       <Private>False</Private>
-      <SpecificVersion>False</SpecificVersion>
     </Reference>
-    <Reference Include="UnityEngine.ImageConversionModule, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="UnityEngine.ImageConversionModule">
+      <HintPath>$(BeatSaberDir)\Beat Saber_Data\Managed\UnityEngine.ImageConversionModule.dll</HintPath>
       <Private>False</Private>
-      <HintPath>$(GameDirectory)\Beat Saber_Data\Managed\UnityEngine.ImageConversionModule.dll</HintPath>
-      <SpecificVersion>False</SpecificVersion>
     </Reference>
-    <Reference Include="websocket-sharp, Version=1.0.2.1803, Culture=neutral, PublicKeyToken=5660b08a1845a91e, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>$(GameDirectory)\Libs\websocket-sharp.dll</HintPath>
+    <Reference Include="websocket-sharp">
+      <HintPath>$(BeatSaberDir)\Libs\websocket-sharp.dll</HintPath>
+      <Private>False</Private>
     </Reference>
-    <Reference Include="WindowsBase" />
     <Reference Include="Zenject">
-      <HintPath>$(GameDirectory)\Beat Saber_Data\Managed\Zenject.dll</HintPath>
+      <HintPath>$(BeatSaberDir)\Beat Saber_Data\Managed\Zenject.dll</HintPath>
       <Private>False</Private>
-      <SpecificVersion>False</SpecificVersion>
     </Reference>
     <Reference Include="Zenject-usage">
-      <HintPath>$(GameDirectory)\Beat Saber_Data\Managed\Zenject-usage.dll</HintPath>
+      <HintPath>$(BeatSaberDir)\Beat Saber_Data\Managed\Zenject-usage.dll</HintPath>
       <Private>False</Private>
-      <SpecificVersion>False</SpecificVersion>
     </Reference>
   </ItemGroup>
-  <ItemGroup>
-    <Compile Include="Attributes\DefaultValueTAttribute.cs" />
-    <Compile Include="Core\LocalLeaderboardEvents.cs" />
-    <Compile Include="Data\AData.cs" />
-    <Compile Include="Attributes\DefaultValueAttribute.cs" />
-    <Compile Include="Data\PartyData.cs" />
-    <Compile Include="Data\SLocalLeaderboardScore.cs" />
-    <Compile Include="Data\SRankedState.cs" />
-    <Compile Include="Data\SRGBAColor.cs" />
-    <Compile Include="Data\ModData.cs" />
-    <Compile Include="Data\SBlockHitScore.cs" />
-    <Compile Include="Data\ELiveDataEventTriggers.cs" />
-    <Compile Include="Data\LiveData.cs" />
-    <Compile Include="Data\MapData.cs" />
-    <Compile Include="Core\EModifiers.cs" />
-    <Compile Include="Data\Modifiers.cs" />
-    <Compile Include="Data\PracticeModeModifiers.cs" />
-    <Compile Include="Data\SColorScheme.cs" />
-    <Compile Include="Data\SPluginMetadata.cs" />
-    <Compile Include="GlobalSuppressions.cs" />
-    <Compile Include="Harmony\BeatmapObjectExecutionRatingsRecorder.cs" />
-    <Compile Include="Harmony\LocalLeaderboardViewControllerPatch.cs" />
-    <Compile Include="Harmony\MultiplayerSessionManagerPatch.cs" />
-    <Compile Include="Installers\MenuInstallers.cs" />
-    <Compile Include="Installers\AppInstallers.cs" />
-    <Compile Include="Installers\PlayerInstallers.cs" />
-    <Compile Include="Server\ADataServer.cs" />
-    <Compile Include="Server\QueuedWebSocketBehavior.cs" />
-    <Compile Include="Server\Server.cs" />
-    <Compile Include="Core\MapEvents.cs" />
-    <Compile Include="Plugin.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Testing\TestClass.cs" />
-  </ItemGroup>
+
   <ItemGroup>
     <EmbeddedResource Include="manifest.json" />
   </ItemGroup>
+
   <ItemGroup>
+    <None Include="DataPuller.csproj.user" Condition="Exists('DataPuller.csproj.user')" />
     <None Include=".editorconfig" />
     <None Include="app.config" />
     <None Include="beatmods.md" />
-    <None Include="BuildTargets.targets" />
-    <None Include="packages.config" />
     <None Include="README.md" />
   </ItemGroup>
-  <ItemGroup />
-  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <Import Project="BuildTargets.targets" />
-  <PropertyGroup>
-    <PostBuildEvent>
-    </PostBuildEvent>
-  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="BeatSaberModdingTools.Tasks" Version="2.0.0-beta7">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+  </ItemGroup>
 </Project>

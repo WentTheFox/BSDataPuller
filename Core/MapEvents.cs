@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -6,7 +6,7 @@ using System.Reflection;
 using System.Timers;
 using BeatSaverSharp;
 using DataPuller.Data;
-using DataPuller.Harmony;
+using DataPuller.Multiplayer;
 using HarmonyLib;
 using IPA.Utilities;
 using SongDetailsCache;
@@ -67,7 +67,7 @@ namespace DataPuller.Core
                     scoreController.scoreDidChangeEvent += ScoreDidChangeEvent;
 
                     MapData.Instance.IsMultiplayer = true;
-                    MultiplayerSessionManagerPatch.UpdatePlayerCount();
+                    MultiplayerSources.RestoreSessionFields();
                     LiveData.Instance.Send();
                 }
                 else if (IsLegacyReplay() && relativeScoreAndImmediateRankCounter is not null && scoreUIController is not null) //Legacy Replay
@@ -192,7 +192,7 @@ namespace DataPuller.Core
             isCustomLevel = isCustomLevel && mapHash != null && mapHash.Length == 40;
 
             var beatmapKey = gameplayCoreSceneSetupData.beatmapKey;
-            SongCore.Data.ExtraSongData.DifficultyData? difficultyData = SongCore.Collections.RetrieveDifficultyData(levelData, beatmapKey);
+            SongCore.Data.SongData.DifficultyData? difficultyData = SongCore.Collections.GetCustomLevelSongDifficultyData(beatmapKey);
 
             MapData.Instance.LevelID = isCustomLevel ? null : levelId;
             MapData.Instance.Hash = isCustomLevel ? mapHash : null;
