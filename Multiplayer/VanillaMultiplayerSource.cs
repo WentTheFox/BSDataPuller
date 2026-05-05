@@ -6,10 +6,10 @@ namespace DataPuller.Multiplayer
 {
     internal class VanillaMultiplayerSource : IMultiplayerSource
     {
-        private ConnectedPlayerManager? _connectedPlayerManager;
+        private BeatSaberConnectedPlayerManager? _connectedPlayerManager;
         private int _maxPlayerCount;
 
-        internal void Activate(ConnectedPlayerManager cpm)
+        internal void Activate(BeatSaberConnectedPlayerManager cpm)
         {
             _connectedPlayerManager = cpm;
             _connectedPlayerManager.connectedEvent += OnConnected;
