@@ -236,11 +236,16 @@ int MultiplayerLobbyCurrentSize = 0;
 ///null when not in a multiplayer lobby, or if the code has not yet been assigned by the server.
 string? MultiplayerLobbyJoinCode = null;
 
-///The BSIPA plugin ID of the mod providing the multiplayer backend for the current lobby.
-///"Vanilla" when no known multiplayer mod is active.
-///Known values: "Vanilla", "BeatTogether", "BeatSaberPlus_Multiplayer".
+///The multiplayer backend for the current lobby.
+///"Vanilla" when MultiplayerCore is not installed or no custom server is active.
+///Known values: "Vanilla", "MultiplayerCore", "BeatSaberPlus_Multiplayer".
 ///null when not in a multiplayer lobby.
 string? MultiplayerLobbySource = null;
+
+///The name of the mod or server powering the current MultiplayerCore-backed lobby (e.g. "BeatTogether").
+///Only populated when MultiplayerLobbySource is "MultiplayerCore".
+///null when not in a multiplayer lobby, or when the source is not MultiplayerCore.
+string? MultiplayerCoreLobbyMod = null;
 
 ///Whether the current BeatSaberPlus Multiplayer+ lobby is set to private.
 ///null when not in a multiplayer lobby, or when the source is not BeatSaberPlus_Multiplayer.
