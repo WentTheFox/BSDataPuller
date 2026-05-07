@@ -24,7 +24,7 @@ namespace DataPuller.Multiplayer
             _connectedPlayerManager.playerDisconnectedEvent += OnPlayerChanged;
 
             MapData.Instance.IsMultiplayer = true;
-            MapData.Instance.MultiplayerLobbySource = DetectSource();
+            ApplySource();
             UpdatePlayerCount();
         }
 
@@ -35,6 +35,7 @@ namespace DataPuller.Multiplayer
             MapData.Instance.IsMultiplayer = false;
             MapData.Instance.MultiplayerLobbyJoinCode = null;
             MapData.Instance.MultiplayerLobbySource = null;
+            MapData.Instance.MultiplayerLobbyModName = null;
             MapData.Instance.MultiplayerLobbyIsPrivate = null;
             _maxPlayerCount = 0;
 
@@ -57,10 +58,9 @@ namespace DataPuller.Multiplayer
         {
             MapData.Instance.MultiplayerLobbyJoinCode = code;
             // By the time a lobby code is displayed the server status endpoint will have
-            // been contacted. Re-resolve the source name in case it wasn't available yet
-            // when Activate() ran.
-            if (TryGetMultiplayerCoreSource(out var refreshedSource) && refreshedSource != null)
-                MapData.Instance.MultiplayerLobbySource = refreshedSource;
+            // been contacted. Re-apply source to pick up the mod name if it wasn't
+            // available when Activate() ran.
+            ApplySource();
             MapData.Instance.Send();
         }
 
@@ -77,16 +77,21 @@ namespace DataPuller.Multiplayer
         private void OnDisconnected(DisconnectedReason _) => UpdatePlayerCount();
         private void OnPlayerChanged(object _) => UpdatePlayerCount();
 
-        private static string DetectSource()
+        private static void ApplySource()
         {
-            if (TryGetMultiplayerCoreSource(out var source) && source != null)
-                return source;
+            if (TryGetMultiplayerCoreSource(out var source, out var modName))
+            {
+                if (source != null)
+                    MapData.Instance.MultiplayerLobbySource = source;
+                MapData.Instance.MultiplayerLobbyModName = modName;
+                return;
+            }
 
-            // Fallback when MultiplayerCore is absent or server name not yet available:
-            // infer from plugin presence.
-            return PluginManager.GetPluginFromId("BeatTogether") != null
+            // Fallback when MultiplayerCore is absent: infer from plugin presence.
+            MapData.Instance.MultiplayerLobbySource = PluginManager.GetPluginFromId("BeatTogether") != null
                 ? MultiplayerLobbySourceType.BeatTogether
                 : MultiplayerLobbySourceType.Vanilla;
+            MapData.Instance.MultiplayerLobbyModName = null;
         }
 
         /// <summary>
@@ -94,10 +99,13 @@ namespace DataPuller.Multiplayer
         /// Returns false if MultiplayerCore is not installed or an error occurs.
         /// Returns true with a null <paramref name="source"/> if MultiplayerCore is overriding
         /// the API but the server name is not yet available from the status endpoint.
+        /// When overriding, <paramref name="source"/> is <see cref="MultiplayerLobbySourceType.MultiplayerCore"/>
+        /// and <paramref name="modName"/> is the server name from the status endpoint (e.g. "BeatTogether").
         /// </summary>
-        private static bool TryGetMultiplayerCoreSource(out string? source)
+        private static bool TryGetMultiplayerCoreSource(out string? source, out string? modName)
         {
             source = null;
+            modName = null;
             if (PluginManager.GetPluginFromId(MultiplayerCoreId) == null) return false;
             try
             {
@@ -120,7 +128,8 @@ namespace DataPuller.Multiplayer
 
                 if (isOverriding == true)
                 {
-                    source = GetMultiplayerCoreServerName(asm, patcher, patcherType);
+                    source = MultiplayerLobbySourceType.MultiplayerCore;
+                    modName = GetMultiplayerCoreServerName(asm, patcher, patcherType);
                     return true;
                 }
 

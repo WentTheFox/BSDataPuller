@@ -16,6 +16,13 @@ namespace DataPuller.Data
         public const string BeatTogether = "BeatTogether";
 
         /// <summary>
+        /// Any custom multiplayer server backed by the MultiplayerCore mod.
+        /// BSIPA plugin ID: <c>MultiplayerCore</c>.
+        /// The specific server or mod can be identified via <see cref="MapData.MultiplayerLobbyModName"/>.
+        /// </summary>
+        public const string MultiplayerCore = "MultiplayerCore";
+
+        /// <summary>
         /// BeatSaberPlus Multiplayer+ mod — fully custom multiplayer networking.
         /// BSIPA plugin ID: <c>BeatSaberPlus_Multiplayer</c>.
         /// </summary>
