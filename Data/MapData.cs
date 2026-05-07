@@ -252,7 +252,7 @@ namespace DataPuller.Data
         public string? MultiplayerLobbyJoinCode { get; internal set; }
 
         /// <summary>The multiplayer backend for the current lobby, as a string matching <see cref="MultiplayerLobbySourceType"/> member names.</summary>
-        /// <remarks><see href="null"/> when not in multiplayer. Possible values: <c>Vanilla</c>, <c>MultiplayerCore</c>, <c>BeatTogether</c>, <c>BeatSaberPlus_Multiplayer</c>.</remarks>
+        /// <remarks><see href="null"/> when not in multiplayer. Possible values: <c>Vanilla</c>, <c>MultiplayerCore</c>, <c>BeatSaberPlus_Multiplayer</c>.</remarks>
         /// <value>Default is <see href="null"/>.</value>
         public string? MultiplayerLobbySource { get; internal set; }
 
@@ -263,7 +263,7 @@ namespace DataPuller.Data
         /// <see href="null"/> otherwise.
         /// </remarks>
         /// <value>Default is <see href="null"/>.</value>
-        public string? MultiplayerLobbyModName { get; internal set; }
+        public string? MultiplayerCoreLobbyMod { get; internal set; }
 
         /// <summary>Whether the current BeatSaberPlus Multiplayer+ lobby is private.</summary>
         /// <remarks><see href="null"/> when not in multiplayer or source is not BeatSaberPlus.</remarks>

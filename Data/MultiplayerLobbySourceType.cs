@@ -10,15 +10,9 @@ namespace DataPuller.Data
         public const string Vanilla = "Vanilla";
 
         /// <summary>
-        /// BeatTogether mod — extends vanilla multiplayer with cross-platform and custom-song support.
-        /// BSIPA plugin ID: <c>BeatTogether</c>.
-        /// </summary>
-        public const string BeatTogether = "BeatTogether";
-
-        /// <summary>
         /// Any custom multiplayer server backed by the MultiplayerCore mod.
         /// BSIPA plugin ID: <c>MultiplayerCore</c>.
-        /// The specific server or mod can be identified via <see cref="MapData.MultiplayerLobbyModName"/>.
+        /// The specific server or mod can be identified via <see cref="MapData.MultiplayerCoreLobbyMod"/>.
         /// </summary>
         public const string MultiplayerCore = "MultiplayerCore";
 
