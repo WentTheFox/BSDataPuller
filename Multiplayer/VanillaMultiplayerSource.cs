@@ -1,11 +1,17 @@
 using DataPuller.Data;
 using IPA.Loader;
+using System;
+using System.Linq;
+using System.Reflection;
+using Zenject;
 
 #nullable enable
 namespace DataPuller.Multiplayer
 {
     internal class VanillaMultiplayerSource : IMultiplayerSource
     {
+        private const string MultiplayerCoreId = "MultiplayerCore";
+
         private BeatSaberConnectedPlayerManager? _connectedPlayerManager;
         private int _maxPlayerCount;
 
@@ -50,6 +56,11 @@ namespace DataPuller.Multiplayer
         internal void SetLobbyCode(string code)
         {
             MapData.Instance.MultiplayerLobbyJoinCode = code;
+            // By the time a lobby code is displayed the server status endpoint will have
+            // been contacted. Re-resolve the source name in case it wasn't available yet
+            // when Activate() ran.
+            if (TryGetMultiplayerCoreSource(out var refreshedSource) && refreshedSource != null)
+                MapData.Instance.MultiplayerLobbySource = refreshedSource;
             MapData.Instance.Send();
         }
 
@@ -67,8 +78,82 @@ namespace DataPuller.Multiplayer
         private void OnPlayerChanged(object _) => UpdatePlayerCount();
 
         private static string DetectSource()
-            => PluginManager.GetPluginFromId("BeatTogether") != null
+        {
+            if (TryGetMultiplayerCoreSource(out var source) && source != null)
+                return source;
+
+            // Fallback when MultiplayerCore is absent or server name not yet available:
+            // infer from plugin presence.
+            return PluginManager.GetPluginFromId("BeatTogether") != null
                 ? MultiplayerLobbySourceType.BeatTogether
                 : MultiplayerLobbySourceType.Vanilla;
+        }
+
+        /// <summary>
+        /// Attempts to detect the lobby source using MultiplayerCore's NetworkConfigPatcher.
+        /// Returns false if MultiplayerCore is not installed or an error occurs.
+        /// Returns true with a null <paramref name="source"/> if MultiplayerCore is overriding
+        /// the API but the server name is not yet available from the status endpoint.
+        /// </summary>
+        private static bool TryGetMultiplayerCoreSource(out string? source)
+        {
+            source = null;
+            if (PluginManager.GetPluginFromId(MultiplayerCoreId) == null) return false;
+            try
+            {
+                var asm = AppDomain.CurrentDomain.GetAssemblies()
+                    .FirstOrDefault(a => a.GetName().Name == MultiplayerCoreId);
+                if (asm == null) return false;
+
+                var patcherType = asm.GetType("MultiplayerCore.Patchers.NetworkConfigPatcher");
+                if (patcherType == null) return false;
+
+                var patcher = ProjectContext.Instance.Container.TryResolve(patcherType);
+                if (patcher == null) return false;
+
+                var isOverriding = patcherType.GetProperty("IsOverridingApi")?.GetValue(patcher) as bool?;
+                if (isOverriding == false)
+                {
+                    source = MultiplayerLobbySourceType.Vanilla;
+                    return true;
+                }
+
+                if (isOverriding == true)
+                {
+                    source = GetMultiplayerCoreServerName(asm, patcher, patcherType);
+                    return true;
+                }
+
+                return false;
+            }
+            catch (Exception ex)
+            {
+                Plugin.Logger.Debug($"MultiplayerCore source detection failed: {ex.Message}");
+                return false;
+            }
+        }
+
+        private static string? GetMultiplayerCoreServerName(Assembly asm, object patcher, Type patcherType)
+        {
+            try
+            {
+                var statusUrl = patcherType.GetProperty("MasterServerStatusUrl")?.GetValue(patcher) as string;
+                if (string.IsNullOrEmpty(statusUrl)) return null;
+
+                var repoType = asm.GetType("MultiplayerCore.Repositories.MpStatusRepository");
+                if (repoType == null) return null;
+
+                var repo = ProjectContext.Instance.Container.TryResolve(repoType);
+                if (repo == null) return null;
+
+                var status = repoType.GetMethod("GetStatusForUrl")?.Invoke(repo, new object[] { statusUrl });
+                return status?.GetType().GetProperty("name")?.GetValue(status) as string;
+            }
+            catch (Exception ex)
+            {
+                Plugin.Logger.Debug($"MultiplayerCore server name lookup failed: {ex.Message}");
+                return null;
+            }
+        }
     }
 }
