@@ -35,6 +35,8 @@ jobs:
 
       - name: Build
         id: Build
+        env:
+          FrameworkPathOverride: ${{ github.workspace }}/Refs/Beat Saber_Data/Managed/
         run: dotnet build --configuration Release /p:DefineConstants=CIBuild
 
       - name: GitStatus
