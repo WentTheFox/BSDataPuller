@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Reflection;
 using System.Timers;
 using BeatSaverSharp;
@@ -402,6 +403,7 @@ namespace DataPuller.Core
         /// <param name="levelData"></param>
         private void TrySetCoverImageFromLevelData(BeatmapLevel levelData)
         {
+            var scheduler = TaskScheduler.FromCurrentSynchronizationContext();
             levelData.previewMediaData.GetCoverSpriteAsync().ContinueWith(task =>
             {
                 try
@@ -447,7 +449,7 @@ namespace DataPuller.Core
                     Plugin.Logger.Error(e.Message + "\n" + e.StackTrace);
                     MapData.Instance.CoverImage = null;
                 }
-            });
+            }, scheduler);
         }
 
         private void TimerElapsedEvent(object sender, ElapsedEventArgs ev)
