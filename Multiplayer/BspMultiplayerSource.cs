@@ -60,7 +60,7 @@ namespace DataPuller.Multiplayer
                 return;
             }
 
-            if (code == _joinCode && isPrivate == _isPrivate && maxPlayers == _maxPlayers && currentPlayers == _currentPlayers) return;
+            if (code == _joinCode && Nullable.Equals(isPrivate, _isPrivate) && maxPlayers == _maxPlayers && currentPlayers == _currentPlayers) return;
 
             _joinCode = code;
             _isPrivate = isPrivate;
