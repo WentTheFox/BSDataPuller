@@ -18,7 +18,7 @@ namespace DataPuller.Data
         /// <remarks></remarks>
         /// <value>Default is an empty list.</value>
         [DefaultValueT<List<SPluginMetadata>>]
-        public List<SPluginMetadata> EnabledPlugins { get; internal set; }
+        public List<SPluginMetadata> EnabledPlugins { get; internal set; } = new();
         #endregion
     }
 }
