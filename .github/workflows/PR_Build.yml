@@ -2,7 +2,7 @@ name: PR Build
 
 on:
   pull_request:
-    branches: [ main ]
+    branches: [ bs1.40.8 ]
     paths:
       - 'DataPuller.sln'
       - 'DataPuller.csproj'
