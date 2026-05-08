@@ -152,7 +152,7 @@ namespace DataPuller.Multiplayer
                 var repo = ProjectContext.Instance.Container.TryResolve(repoType);
                 if (repo == null) return null;
 
-                var status = repoType.GetMethod("GetStatusForUrl")?.Invoke(repo, new object[] { statusUrl });
+                var status = repoType.GetMethod("GetStatusForUrl")?.Invoke(repo, new object[] { statusUrl! });
                 return status?.GetType().GetProperty("name")?.GetValue(status) as string;
             }
             catch (Exception ex)
