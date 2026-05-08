@@ -224,9 +224,16 @@ namespace DataPuller.Data
 
         /// <summary></summary>
         /// <remarks></remarks>
+        /// <value>Always <c>"2.1.1"</c> for compatibility with BSDP-Overlay version detection. See <see cref="ModVersion"/> for the real version.</value>
+        [JsonProperty]
+        [Obsolete("Use ModVersion for the actual plugin version. This field is frozen at 2.1.1 for BSDP-Overlay compatibility.")]
+        public static readonly string PluginVersion = "2.1.1";
+
+        /// <summary>The real version of this plugin.</summary>
+        /// <remarks></remarks>
         /// <value><see cref="Version"/>.</value>
         [JsonProperty]
-        public static readonly string PluginVersion = Assembly.GetExecutingAssembly().GetName().Version.ToString(3);
+        public static readonly string ModVersion = Assembly.GetExecutingAssembly().GetName().Version.ToString(3);
 
         /// <summary></summary>
         /// <remarks></remarks>

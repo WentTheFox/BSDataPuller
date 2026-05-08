@@ -220,7 +220,9 @@ SColorScheme ColorScheme = new SColorScheme();
 //====MISC====
 string GameVersion = ""; //Will be the current game version, e.g. 1.20.0
 
-string PluginVersion = ""; //Will be the current version of the plugin, e.g. 2.1.0
+string PluginVersion = ""; //[DEPRECATED] Always "2.1.1" for BSDP-Overlay compatibility. Use ModVersion instead.
+
+string ModVersion = ""; //The actual version of this plugin, e.g. 2.2.0
 
 bool IsMultiplayer = false;
 
