@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Threading.Tasks;
 using System.Linq;
 using System.Reflection;
 using System.Timers;
@@ -400,7 +401,10 @@ namespace DataPuller.Core
         /// Modified to correctly handle texture atlases
         /// </summary>
         /// <param name="levelData"></param>
-        private async void TrySetCoverImageFromLevelData(BeatmapLevel levelData)
+        private void TrySetCoverImageFromLevelData(BeatmapLevel levelData)
+            => _ = TrySetCoverImageFromLevelDataAsync(levelData);
+
+        private async Task TrySetCoverImageFromLevelDataAsync(BeatmapLevel levelData)
         {
             try
             {

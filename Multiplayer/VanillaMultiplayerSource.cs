@@ -117,13 +117,13 @@ namespace DataPuller.Multiplayer
                 if (patcher == null) return false;
 
                 var isOverriding = patcherType.GetProperty("IsOverridingApi")?.GetValue(patcher) as bool?;
-                if (isOverriding == false)
+                if (isOverriding.HasValue && !isOverriding.Value)
                 {
                     source = MultiplayerLobbySourceType.Vanilla;
                     return true;
                 }
 
-                if (isOverriding == true)
+                if (isOverriding.HasValue && isOverriding.Value)
                 {
                     source = MultiplayerLobbySourceType.MultiplayerCore;
                     modName = GetMultiplayerCoreServerName(asm, patcher, patcherType);
