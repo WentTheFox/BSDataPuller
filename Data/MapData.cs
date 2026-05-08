@@ -224,9 +224,16 @@ namespace DataPuller.Data
 
         /// <summary></summary>
         /// <remarks></remarks>
+        /// <value>Always <c>"2.1.1"</c> for compatibility with BSDP-Overlay version detection. See <see cref="ModVersion"/> for the real version.</value>
+        [JsonProperty]
+        [Obsolete("Use ModVersion for the actual plugin version. This field is frozen at 2.1.1 for BSDP-Overlay compatibility.")]
+        public static readonly string PluginVersion = "2.1.1";
+
+        /// <summary>The real version of this plugin.</summary>
+        /// <remarks></remarks>
         /// <value><see cref="Version"/>.</value>
         [JsonProperty]
-        public static readonly string PluginVersion = Assembly.GetExecutingAssembly().GetName().Version.ToString(3);
+        public static readonly string ModVersion = Assembly.GetExecutingAssembly().GetName().Version.ToString(3);
 
         /// <summary></summary>
         /// <remarks></remarks>
@@ -252,9 +259,18 @@ namespace DataPuller.Data
         public string? MultiplayerLobbyJoinCode { get; internal set; }
 
         /// <summary>The multiplayer backend for the current lobby, as a string matching <see cref="MultiplayerLobbySourceType"/> member names.</summary>
-        /// <remarks><see href="null"/> when not in multiplayer. Possible values: <c>Vanilla</c>, <c>BeatTogether</c>, <c>BeatSaberPlus_Multiplayer</c>.</remarks>
+        /// <remarks><see href="null"/> when not in multiplayer. Possible values: <c>Vanilla</c>, <c>MultiplayerCore</c>, <c>BeatSaberPlus_Multiplayer</c>.</remarks>
         /// <value>Default is <see href="null"/>.</value>
         public string? MultiplayerLobbySource { get; internal set; }
+
+        /// <summary>The name of the specific mod or server powering the current MultiplayerCore-backed lobby (e.g. "BeatTogether").</summary>
+        /// <remarks>
+        /// Only populated when <see cref="MultiplayerLobbySource"/> is <see cref="MultiplayerLobbySourceType.MultiplayerCore"/>.
+        /// Corresponds to the <c>name</c> field in the server's MultiplayerCore status response.
+        /// <see href="null"/> otherwise.
+        /// </remarks>
+        /// <value>Default is <see href="null"/>.</value>
+        public string? MultiplayerCoreLobbyMod { get; internal set; }
 
         /// <summary>Whether the current BeatSaberPlus Multiplayer+ lobby is private.</summary>
         /// <remarks><see href="null"/> when not in multiplayer or source is not BeatSaberPlus.</remarks>
