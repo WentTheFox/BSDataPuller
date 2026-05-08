@@ -35,7 +35,7 @@ namespace DataPuller.Multiplayer
             MapData.Instance.IsMultiplayer = false;
             MapData.Instance.MultiplayerLobbyJoinCode = null;
             MapData.Instance.MultiplayerLobbySource = null;
-            MapData.Instance.MultiplayerLobbyModName = null;
+            MapData.Instance.MultiplayerCoreLobbyMod = null;
             MapData.Instance.MultiplayerLobbyIsPrivate = null;
             _maxPlayerCount = 0;
 
@@ -83,15 +83,12 @@ namespace DataPuller.Multiplayer
             {
                 if (source != null)
                     MapData.Instance.MultiplayerLobbySource = source;
-                MapData.Instance.MultiplayerLobbyModName = modName;
+                MapData.Instance.MultiplayerCoreLobbyMod = modName;
                 return;
             }
 
-            // Fallback when MultiplayerCore is absent: infer from plugin presence.
-            MapData.Instance.MultiplayerLobbySource = PluginManager.GetPluginFromId("BeatTogether") != null
-                ? MultiplayerLobbySourceType.BeatTogether
-                : MultiplayerLobbySourceType.Vanilla;
-            MapData.Instance.MultiplayerLobbyModName = null;
+            MapData.Instance.MultiplayerLobbySource = MultiplayerLobbySourceType.Vanilla;
+            MapData.Instance.MultiplayerCoreLobbyMod = null;
         }
 
         /// <summary>
