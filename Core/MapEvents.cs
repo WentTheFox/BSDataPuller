@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Threading.Tasks;
 using System.Linq;
 using System.Reflection;
 using System.Timers;
@@ -402,53 +401,53 @@ namespace DataPuller.Core
         /// </summary>
         /// <param name="levelData"></param>
         private void TrySetCoverImageFromLevelData(BeatmapLevel levelData)
-            => _ = TrySetCoverImageFromLevelDataAsync(levelData);
-
-        private async Task TrySetCoverImageFromLevelDataAsync(BeatmapLevel levelData)
         {
-            try
+            levelData.previewMediaData.GetCoverSpriteAsync().ContinueWith(task =>
             {
-                var coverImageSprite = await levelData.previewMediaData.GetCoverSpriteAsync();
-                if (coverImageSprite != null)
+                try
                 {
-                    var activeRenderTexture = RenderTexture.active;
-                    var texture = coverImageSprite.texture;
-                    var temporary = RenderTexture.GetTemporary(texture.width, texture.height, 0, RenderTextureFormat.Default, RenderTextureReadWrite.Default);
-                    try
+                    var coverImageSprite = task.GetAwaiter().GetResult();
+                    if (coverImageSprite != null)
                     {
-                        Graphics.Blit(texture, temporary);
-                        RenderTexture.active = temporary;
-
+                        var activeRenderTexture = RenderTexture.active;
+                        var texture = coverImageSprite.texture;
+                        var temporary = RenderTexture.GetTemporary(texture.width, texture.height, 0, RenderTextureFormat.Default, RenderTextureReadWrite.Default);
                         try
                         {
-                            var textureRect = coverImageSprite.textureRect;
+                            Graphics.Blit(texture, temporary);
+                            RenderTexture.active = temporary;
 
-                            var cover = new Texture2D((int)textureRect.width, (int)textureRect.height);
-                            cover.ReadPixels(
-                                textureRect,
-                                0,
-                                0
-                            );
-                            cover.Apply();
+                            try
+                            {
+                                var textureRect = coverImageSprite.textureRect;
 
-                            MapData.Instance.CoverImage = "data:image/png;base64," + Convert.ToBase64String(ImageConversion.EncodeToPNG(cover));
+                                var cover = new Texture2D((int)textureRect.width, (int)textureRect.height);
+                                cover.ReadPixels(
+                                    textureRect,
+                                    0,
+                                    0
+                                );
+                                cover.Apply();
+
+                                MapData.Instance.CoverImage = "data:image/png;base64," + Convert.ToBase64String(ImageConversion.EncodeToPNG(cover));
+                            }
+                            finally
+                            {
+                                RenderTexture.active = activeRenderTexture;
+                            }
                         }
                         finally
                         {
-                            RenderTexture.active = activeRenderTexture;
+                            RenderTexture.ReleaseTemporary(temporary);
                         }
                     }
-                    finally
-                    {
-                        RenderTexture.ReleaseTemporary(temporary);
-                    }
                 }
-            }
-            catch (Exception e)
-            {
-                Plugin.Logger.Error(e.Message + "\n" + e.StackTrace);
-                MapData.Instance.CoverImage = null;
-            }
+                catch (Exception e)
+                {
+                    Plugin.Logger.Error(e.Message + "\n" + e.StackTrace);
+                    MapData.Instance.CoverImage = null;
+                }
+            });
         }
 
         private void TimerElapsedEvent(object sender, ElapsedEventArgs ev)
