@@ -35,8 +35,6 @@ jobs:
 
       - name: Build
         id: Build
-        env:
-          FrameworkPathOverride: /usr/lib/mono/4.8-api
         run: dotnet build --configuration Release /p:DefineConstants=CIBuild
 
       - name: GitStatus
